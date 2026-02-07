@@ -1,0 +1,649 @@
+# OpenAPI 3.1 Specification for EcoMarket API
+# Refleja el comportamiento del cliente CRUD actual
+# Incluye 2 nuevas funcionalidades propuestas
+
+openapi: 3.1.0
+info:
+  title: EcoMarket API
+  description: |
+    API REST para gestión de productos orgánicos y ecológicos.
+    
+    ## Características
+    - CRUD completo de productos
+    - Filtrado por categoría y ordenamiento
+    - Validación estricta de esquemas
+    - Manejo robusto de errores HTTP
+    
+    ## Nuevas Funcionalidades (Propuestas)
+    1. **Búsqueda de productos** - Endpoint para buscar por nombre/descripción
+    2. **Productos por productor** - Listar todos los productos de un productor
+  version: 1.0.0
+  contact:
+    name: EcoMarket Development Team
+    email: dev@ecomarket.local
+
+servers:
+  - url: http://localhost:3000/api
+    description: Servidor de desarrollo local
+
+tags:
+  - name: Productos
+    description: Operaciones CRUD de productos
+  - name: Búsqueda
+    description: Búsqueda avanzada de productos (NUEVA)
+  - name: Productores
+    description: Operaciones relacionadas con productores (NUEVA)
+
+paths:
+  # ============================================================
+  # ENDPOINTS EXISTENTES (Reflejan el cliente actual)
+  # ============================================================
+  
+  /productos:
+    get:
+      tags:
+        - Productos
+      summary: Listar productos
+      description: |
+        Obtiene la lista completa de productos con filtros opcionales.
+        Corresponde a `listar_productos(categoria, orden)` del cliente.
+      operationId: listarProductos
+      parameters:
+        - name: categoria
+          in: query
+          description: Filtrar por categoría de producto
+          required: false
+          schema:
+            $ref: '#/components/schemas/CategoriaEnum'
+        - name: orden
+          in: query
+          description: Ordenamiento de resultados
+          required: false
+          schema:
+            type: string
+            enum: [asc, desc, precio_asc, precio_desc, nombre_asc, nombre_desc]
+            example: asc
+      responses:
+        '200':
+          description: Lista de productos obtenida exitosamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Producto'
+              examples:
+                lista_productos:
+                  summary: Lista con productos
+                  value:
+                    - id: 1
+                      nombre: "Manzanas Orgánicas"
+                      precio: 25.50
+                      categoria: "frutas"
+                      disponible: true
+                    - id: 2
+                      nombre: "Leche de Campo"
+                      precio: 18.00
+                      categoria: "lacteos"
+                lista_vacia:
+                  summary: Lista vacía (sin productos)
+                  value: []
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+    
+    post:
+      tags:
+        - Productos
+      summary: Crear producto
+      description: |
+        Crea un nuevo producto en el catálogo.
+        Corresponde a `crear_producto(datos)` del cliente.
+      operationId: crearProducto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductoCrear'
+            examples:
+              producto_basico:
+                summary: Producto con campos mínimos
+                value:
+                  nombre: "Miel de Abeja"
+                  precio: 80.00
+                  categoria: "miel"
+              producto_completo:
+                summary: Producto con todos los campos
+                value:
+                  nombre: "Zanahorias Bio"
+                  precio: 12.50
+                  categoria: "verduras"
+                  descripcion: "Zanahorias orgánicas de cultivo local"
+                  disponible: true
+                  productor:
+                    id: 101
+                    nombre: "Granja El Valle"
+      responses:
+        '201':
+          description: Producto creado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Producto'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /productos/{id}:
+    parameters:
+      - $ref: '#/components/parameters/ProductoId'
+    
+    get:
+      tags:
+        - Productos
+      summary: Obtener producto por ID
+      description: |
+        Obtiene los detalles de un producto específico.
+        Corresponde a `obtener_producto(id)` del cliente.
+      operationId: obtenerProducto
+      responses:
+        '200':
+          description: Producto encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Producto'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    
+    put:
+      tags:
+        - Productos
+      summary: Actualizar producto (completo)
+      description: |
+        Reemplaza completamente un producto existente.
+        Corresponde a `actualizar_producto_total(id, datos)` del cliente.
+        Todos los campos deben ser proporcionados.
+      operationId: actualizarProductoTotal
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductoActualizar'
+      responses:
+        '200':
+          description: Producto actualizado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Producto'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    
+    patch:
+      tags:
+        - Productos
+      summary: Actualizar producto (parcial)
+      description: |
+        Actualiza solo los campos proporcionados de un producto.
+        Corresponde a `actualizar_producto_parcial(id, campos)` del cliente.
+      operationId: actualizarProductoParcial
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductoPatch'
+            examples:
+              cambiar_precio:
+                summary: Actualizar solo el precio
+                value:
+                  precio: 29.99
+              cambiar_disponibilidad:
+                summary: Marcar como no disponible
+                value:
+                  disponible: false
+      responses:
+        '200':
+          description: Producto actualizado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Producto'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    
+    delete:
+      tags:
+        - Productos
+      summary: Eliminar producto
+      description: |
+        Elimina un producto del catálogo permanentemente.
+        Corresponde a `eliminar_producto(id)` del cliente.
+      operationId: eliminarProducto
+      responses:
+        '204':
+          description: Producto eliminado exitosamente (sin contenido)
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  # ============================================================
+  # NUEVA FUNCIONALIDAD 1: Búsqueda de productos
+  # ============================================================
+  
+  /productos/buscar:
+    get:
+      tags:
+        - Búsqueda
+      summary: Buscar productos por texto
+      description: |
+        **NUEVA FUNCIONALIDAD PROPUESTA**
+        
+        Búsqueda full-text en nombre y descripción de productos.
+        Útil para implementar un buscador en la UI.
+        
+        El cliente debería implementar:
+        ```python
+        def buscar_productos(query: str, limite: int = 20) -> list:
+            '''Busca productos por nombre o descripción.'''
+        ```
+      operationId: buscarProductos
+      parameters:
+        - name: q
+          in: query
+          description: Término de búsqueda (mínimo 2 caracteres)
+          required: true
+          schema:
+            type: string
+            minLength: 2
+            maxLength: 100
+          example: "manzana orgánica"
+        - name: limite
+          in: query
+          description: Número máximo de resultados
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: categoria
+          in: query
+          description: Filtrar búsqueda por categoría
+          required: false
+          schema:
+            $ref: '#/components/schemas/CategoriaEnum'
+      responses:
+        '200':
+          description: Resultados de búsqueda
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: integer
+                    description: Total de coincidencias encontradas
+                    example: 5
+                  resultados:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ProductoBusqueda'
+        '400':
+          description: Query de búsqueda inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: "El término de búsqueda debe tener al menos 2 caracteres"
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  # ============================================================
+  # NUEVA FUNCIONALIDAD 2: Productos por productor
+  # ============================================================
+  
+  /productores/{productorId}/productos:
+    get:
+      tags:
+        - Productores
+      summary: Listar productos de un productor
+      description: |
+        **NUEVA FUNCIONALIDAD PROPUESTA**
+        
+        Obtiene todos los productos de un productor específico.
+        Útil para mostrar el catálogo completo de un proveedor.
+        
+        El cliente debería implementar:
+        ```python
+        def listar_productos_productor(productor_id: int) -> list:
+            '''Lista todos los productos de un productor.'''
+        ```
+      operationId: listarProductosProductor
+      parameters:
+        - name: productorId
+          in: path
+          description: ID del productor
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          example: 101
+        - name: disponibles_solo
+          in: query
+          description: Mostrar solo productos disponibles
+          required: false
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Lista de productos del productor
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  productor:
+                    $ref: '#/components/schemas/Productor'
+                  productos:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Producto'
+                  total_productos:
+                    type: integer
+                    example: 12
+        '404':
+          description: Productor no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: "Productor con ID 999 no encontrado"
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+components:
+  # ============================================================
+  # SCHEMAS
+  # ============================================================
+  
+  schemas:
+    CategoriaEnum:
+      type: string
+      enum:
+        - frutas
+        - verduras
+        - lacteos
+        - miel
+        - conservas
+      description: Categorías válidas de productos EcoMarket
+    
+    Productor:
+      type: object
+      description: Información del productor/proveedor
+      required:
+        - id
+        - nombre
+      properties:
+        id:
+          type: integer
+          description: ID único del productor
+          example: 101
+        nombre:
+          type: string
+          description: Nombre del productor o granja
+          example: "Granja El Valle"
+    
+    Producto:
+      type: object
+      description: Producto del catálogo EcoMarket
+      required:
+        - id
+        - nombre
+        - precio
+        - categoria
+      properties:
+        id:
+          type: integer
+          description: ID único del producto
+          example: 1
+        nombre:
+          type: string
+          description: Nombre del producto
+          minLength: 1
+          maxLength: 200
+          example: "Manzanas Orgánicas"
+        precio:
+          type: number
+          format: float
+          description: Precio del producto (debe ser mayor a 0)
+          minimum: 0.01
+          example: 25.50
+        categoria:
+          $ref: '#/components/schemas/CategoriaEnum'
+        disponible:
+          type: boolean
+          description: Si el producto está disponible para compra
+          default: true
+          example: true
+        descripcion:
+          type: string
+          description: Descripción detallada del producto
+          maxLength: 1000
+          example: "Manzanas rojas orgánicas de producción local"
+        productor:
+          $ref: '#/components/schemas/Productor'
+        creado_en:
+          type: string
+          format: date-time
+          description: Fecha de creación en formato ISO 8601
+          example: "2024-01-15T10:30:00Z"
+    
+    ProductoCrear:
+      type: object
+      description: Datos para crear un nuevo producto
+      required:
+        - nombre
+        - precio
+        - categoria
+      properties:
+        nombre:
+          type: string
+          minLength: 1
+          maxLength: 200
+        precio:
+          type: number
+          minimum: 0.01
+        categoria:
+          $ref: '#/components/schemas/CategoriaEnum'
+        descripcion:
+          type: string
+          maxLength: 1000
+        disponible:
+          type: boolean
+          default: true
+        productor:
+          $ref: '#/components/schemas/Productor'
+    
+    ProductoActualizar:
+      type: object
+      description: Datos para actualización completa (PUT)
+      required:
+        - nombre
+        - precio
+        - categoria
+      properties:
+        nombre:
+          type: string
+          minLength: 1
+          maxLength: 200
+        precio:
+          type: number
+          minimum: 0.01
+        categoria:
+          $ref: '#/components/schemas/CategoriaEnum'
+        descripcion:
+          type: string
+          maxLength: 1000
+        disponible:
+          type: boolean
+        productor:
+          $ref: '#/components/schemas/Productor'
+    
+    ProductoPatch:
+      type: object
+      description: Datos para actualización parcial (PATCH) - todos los campos opcionales
+      properties:
+        nombre:
+          type: string
+          minLength: 1
+          maxLength: 200
+        precio:
+          type: number
+          minimum: 0.01
+        categoria:
+          $ref: '#/components/schemas/CategoriaEnum'
+        descripcion:
+          type: string
+          maxLength: 1000
+        disponible:
+          type: boolean
+        productor:
+          $ref: '#/components/schemas/Productor'
+    
+    ProductoBusqueda:
+      type: object
+      description: Resultado de búsqueda con relevancia
+      allOf:
+        - $ref: '#/components/schemas/Producto'
+        - type: object
+          properties:
+            relevancia:
+              type: number
+              format: float
+              description: Puntuación de relevancia (0-1)
+              example: 0.85
+            fragmento:
+              type: string
+              description: Fragmento de texto donde se encontró la coincidencia
+              example: "...manzanas orgánicas de cultivo..."
+    
+    Error:
+      type: object
+      description: Respuesta de error estándar
+      required:
+        - error
+      properties:
+        error:
+          type: string
+          description: Mensaje de error descriptivo
+          example: "El campo 'nombre' es requerido"
+        codigo:
+          type: string
+          description: Código de error interno (opcional)
+          example: "VALIDATION_ERROR"
+        detalles:
+          type: object
+          description: Información adicional del error
+          additionalProperties: true
+
+  # ============================================================
+  # PARAMETERS
+  # ============================================================
+  
+  parameters:
+    ProductoId:
+      name: id
+      in: path
+      description: ID único del producto
+      required: true
+      schema:
+        type: integer
+        minimum: 1
+      example: 1
+
+  # ============================================================
+  # RESPONSES
+  # ============================================================
+  
+  responses:
+    BadRequest:
+      description: Datos de entrada inválidos (400)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "El campo 'precio' debe ser mayor a 0"
+    
+    Unauthorized:
+      description: No autorizado - Token faltante o inválido (401)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "Token de autenticación no proporcionado"
+    
+    NotFound:
+      description: Recurso no encontrado (404)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "Producto con ID 9999 no encontrado"
+    
+    Conflict:
+      description: Conflicto - El recurso ya existe o hay duplicación (409)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "Ya existe un producto con ese nombre"
+    
+    ServerError:
+      description: Error interno del servidor (500)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "Error interno del servidor"
+    
+    ServiceUnavailable:
+      description: Servicio temporalmente no disponible (503)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "Servicio temporalmente no disponible. Intente más tarde."

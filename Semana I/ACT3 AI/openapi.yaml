@@ -1,0 +1,281 @@
+#Mejoras realizadas:
+#1. Se agregaron los códigos de estado 400, 401, 403, 409, 422, 500, 503 para generar mensajes de error semanticos
+#2. Se agregaron las respectivas respuestas para cada codigo de estado al final del archivo
+
+openapi: 3.0.3
+info:
+  title: EcoMarket API
+  description: API para conectar productores locales de alimentos orgánicos con consumidores.
+  version: 1.0.0
+servers:
+  - url: https://api.ecomarket.com/v1
+    description: Servidor de producción
+
+paths:
+  /productos:
+    get:
+      summary: Listar productos disponibles
+      description: Obtiene una lista de productos con opción de filtrar por categoría y productor.
+      parameters:
+        - name: categoria
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/Categoria'
+        - name: productor_id
+          in: query
+          required: false
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Lista de productos obtenida con éxito
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Producto'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    post:
+      summary: Crear un nuevo producto
+      description: Registra un producto en el catálogo. Requiere autenticación.
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductoInput'
+      responses:
+        '201':
+          description: Producto creado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Producto'
+        '400':
+          oneOf:
+            - $ref: '#/components/responses/BadRequest'
+            - $ref: '#/components/responses/InvalidSyntax'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          oneOf:
+            - $ref: '#/components/responses/InternalServerError'
+            - $ref: '#/components/responses/DatabaseError'
+
+  /productos/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      summary: Ver detalle de un producto específico
+      responses:
+        '200':
+          description: Detalle del producto encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Producto'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    Categoria:
+      type: string
+      enum: [frutas, verduras, lacteos, miel, conservas]
+      example: frutas
+
+    Producto:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        nombre:
+          type: string
+          example: "Manzanas Orgánicas Gala"
+        descripcion:
+          type: string
+          example: "Caja de 1kg de manzanas cultivadas sin pesticidas."
+        precio:
+          type: number
+          format: float
+          multipleOf: 0.01
+          example: 4.50
+        categoria:
+          $ref: '#/components/schemas/Categoria'
+        productor_id:
+          type: string
+          format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        disponible:
+          type: boolean
+          example: true
+        creado_en:
+          type: string
+          format: date-time
+          example: "2026-01-28T10:00:00Z"
+
+    ProductoInput:
+      type: object
+      required: [nombre, precio, categoria, productor_id]
+      properties:
+        nombre:
+          type: string
+          minLength: 3
+        descripcion:
+          type: string
+        precio:
+          type: number
+          format: float
+          multipleOf: 0.01
+          minimum: 0.01
+        categoria:
+          $ref: '#/components/schemas/Categoria'
+        productor_id:
+          type: string
+          format: uuid
+        disponible:
+          type: boolean
+          default: true
+
+    Error:
+      type: object
+      properties:
+        codigo:
+          type: string
+        mensaje:
+          type: string
+        detalles:
+          type: array
+          items:
+            type: string
+
+  responses:
+    BadRequest:
+      description: La solicitud es inválida o faltan parámetros requeridos.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            codigo: "VALIDATION_ERROR"
+            mensaje: "El campo 'precio' no puede tener más de 2 decimales."
+
+    InvalidSyntax:
+      description: El cuerpo de la solicitud tiene un formato JSON inválido.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            codigo: "INVALID_JSON"
+            mensaje: "Sintaxis JSON malformada en el cuerpo de la petición."
+
+    Unauthorized:
+      description: No se proporcionó el token de acceso o es inválido.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            codigo: "UNAUTHORIZED"
+            mensaje: "Se requiere un token válido en el header Authorization."
+
+    Forbidden:
+      description: El usuario no tiene permisos para realizar esta acción.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            codigo: "FORBIDDEN"
+            mensaje: "No tienes permisos de productor para crear productos."
+
+    NotFound:
+      description: El recurso solicitado no existe.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            codigo: "NOT_FOUND"
+            mensaje: "El producto con el ID proporcionado no fue encontrado."
+
+    Conflict:
+      description: Hay un conflicto con el estado actual del recurso.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            codigo: "DUPLICATE_PRODUCT"
+            mensaje: "Ya existe un producto con el mismo nombre para este productor."
+
+    UnprocessableEntity:
+      description: Los datos proporcionados son correctos pero no pueden ser procesados.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            codigo: "INSUFFICIENT_STOCK"
+            mensaje: "No se puede marcar como disponible un producto sin stock."
+
+    InternalServerError:
+      description: Error inesperado en el servidor.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            codigo: "INTERNAL_SERVER_ERROR"
+            mensaje: "Ha ocurrido un error inesperado, por favor intenta más tarde."
+
+    DatabaseError:
+      description: Error de comunicación o persistencia en la base de datos.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            codigo: "DATABASE_CONNECTION_ERROR"
+            mensaje: "Error temporal al guardar el producto en el catálogo."
+
+    ServiceUnavailable:
+      description: El servidor no puede responder temporalmente.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            codigo: "MAINTENANCE_MODE"
+            mensaje: "El servicio está en mantenimiento programado."
