@@ -77,6 +77,12 @@ def listar_productos():
     """GET /api/productos - Lista todos los productos"""
     categoria = request.args.get('categoria')
     orden = request.args.get('orden')
+    delay = request.args.get('delay', type=int)
+    
+    # Simular delay si se especifica (para pruebas de timeout)
+    if delay:
+        import time
+        time.sleep(delay)
     
     resultado = list(productos_db.values())
     
@@ -92,6 +98,71 @@ def listar_productos():
     
     log_request('GET', '/api/productos', 200)
     return jsonify(resultado), 200
+
+
+@app.route('/api/categorias', methods=['GET'])
+def listar_categorias():
+    """GET /api/categorias - Lista todas las categorías disponibles"""
+    delay = request.args.get('delay', type=int)
+    
+    # Simular delay si se especifica (para pruebas de timeout)
+    if delay:
+        import time
+        time.sleep(delay)
+    
+    categorias = [
+        {
+            "id": 1,
+            "nombre": "accesorios",
+            "descripcion": "Accesorios ecológicos",
+            "total_productos": len([p for p in productos_db.values() if p.get('categoria') == 'accesorios'])
+        },
+        {
+            "id": 2,
+            "nombre": "bebidas",
+            "descripcion": "Contenedores para bebidas",
+            "total_productos": len([p for p in productos_db.values() if p.get('categoria') == 'bebidas'])
+        },
+        {
+            "id": 3,
+            "nombre": "higiene",
+            "descripcion": "Productos de higiene personal",
+            "total_productos": len([p for p in productos_db.values() if p.get('categoria') == 'higiene'])
+        }
+    ]
+    
+    log_request('GET', '/api/categorias', 200)
+    return jsonify(categorias), 200
+
+
+@app.route('/api/perfil', methods=['GET'])
+def obtener_perfil():
+    """GET /api/perfil - Obtiene el perfil del usuario actual"""
+    delay = request.args.get('delay', type=int)
+    
+    # Simular delay si se especifica (para pruebas de timeout)
+    if delay:
+        import time
+        time.sleep(delay)
+    
+    perfil = {
+        "id": 1,
+        "nombre": "Usuario Demo",
+        "email": "demo@ecomarket.com",
+        "preferencias": {
+            "categoria_favorita": "accesorios",
+            "notificaciones": True
+        },
+        "direccion": {
+            "calle": "Av. Ecológica 123",
+            "ciudad": "Ciudad Verde",
+            "codigo_postal": "12345"
+        },
+        "fecha_registro": "2024-01-15T10:30:00Z"
+    }
+    
+    log_request('GET', '/api/perfil', 200)
+    return jsonify(perfil), 200
 
 
 @app.route('/api/productos/<int:producto_id>', methods=['GET'])
@@ -237,7 +308,10 @@ if __name__ == '__main__':
     print("  PUT    /api/productos/{id}     - Actualizar (total)")
     print("  PATCH  /api/productos/{id}     - Actualizar (parcial)")
     print("  DELETE /api/productos/{id}     - Eliminar producto")
+    print("  GET    /api/categorias         - Listar categorías")
+    print("  GET    /api/perfil             - Obtener perfil usuario")
     print("-" * 50)
     print("Presiona Ctrl+C para detener el servidor\n")
     
     app.run(host='localhost', port=3000, debug=True)
+
