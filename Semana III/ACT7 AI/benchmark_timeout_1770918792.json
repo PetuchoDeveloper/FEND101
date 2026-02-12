@@ -1,0 +1,289 @@
+{
+  "escenario": "timeout",
+  "timestamp": 1770918792.2562885,
+  "resultados": {
+    "gather_tolerante": [
+      {
+        "estrategia": "gather(tolerante)",
+        "tiempo_total_ms": 10015.4,
+        "tiempo_primer_dato_ms": 10015.4,
+        "datos_exitosos": 3,
+        "datos_fallidos": 1,
+        "tasa_exito": 75.0,
+        "errores": [
+          "notificaciones: notificaciones: Timeout después de 10000ms"
+        ],
+        "orden_completacion": []
+      },
+      {
+        "estrategia": "gather(tolerante)",
+        "tiempo_total_ms": 10006.64,
+        "tiempo_primer_dato_ms": 10006.64,
+        "datos_exitosos": 3,
+        "datos_fallidos": 1,
+        "tasa_exito": 75.0,
+        "errores": [
+          "notificaciones: notificaciones: Timeout después de 10000ms"
+        ],
+        "orden_completacion": []
+      },
+      {
+        "estrategia": "gather(tolerante)",
+        "tiempo_total_ms": 9998.41,
+        "tiempo_primer_dato_ms": 9998.41,
+        "datos_exitosos": 3,
+        "datos_fallidos": 1,
+        "tasa_exito": 75.0,
+        "errores": [
+          "notificaciones: notificaciones: Timeout después de 10000ms"
+        ],
+        "orden_completacion": []
+      }
+    ],
+    "gather_estricto": [
+      {
+        "estrategia": "gather(estricto)",
+        "tiempo_total_ms": 10011.88,
+        "tiempo_primer_dato_ms": 10011.88,
+        "datos_exitosos": 0,
+        "datos_fallidos": 4,
+        "tasa_exito": 0.0,
+        "errores": [
+          "Error global: notificaciones: Timeout después de 10000ms"
+        ],
+        "orden_completacion": []
+      },
+      {
+        "estrategia": "gather(estricto)",
+        "tiempo_total_ms": 9992.88,
+        "tiempo_primer_dato_ms": 9992.88,
+        "datos_exitosos": 0,
+        "datos_fallidos": 4,
+        "tasa_exito": 0.0,
+        "errores": [
+          "Error global: notificaciones: Timeout después de 10000ms"
+        ],
+        "orden_completacion": []
+      },
+      {
+        "estrategia": "gather(estricto)",
+        "tiempo_total_ms": 10008.97,
+        "tiempo_primer_dato_ms": 10008.97,
+        "datos_exitosos": 0,
+        "datos_fallidos": 4,
+        "tasa_exito": 0.0,
+        "errores": [
+          "Error global: notificaciones: Timeout después de 10000ms"
+        ],
+        "orden_completacion": []
+      }
+    ],
+    "first_completed": [
+      {
+        "estrategia": "wait_first_completed",
+        "tiempo_total_ms": 9997.99,
+        "tiempo_primer_dato_ms": 107.33,
+        "datos_exitosos": 3,
+        "datos_fallidos": 1,
+        "tasa_exito": 75.0,
+        "errores": [
+          "notificaciones: notificaciones: Timeout después de 10000ms"
+        ],
+        "orden_completacion": [
+          [
+            "categorias",
+            107.33
+          ],
+          [
+            "productos",
+            201.74
+          ],
+          [
+            "perfil",
+            512.15
+          ],
+          [
+            "notificaciones",
+            9997.99
+          ]
+        ]
+      },
+      {
+        "estrategia": "wait_first_completed",
+        "tiempo_total_ms": 10011.56,
+        "tiempo_primer_dato_ms": 106.91,
+        "datos_exitosos": 3,
+        "datos_fallidos": 1,
+        "tasa_exito": 75.0,
+        "errores": [
+          "notificaciones: notificaciones: Timeout después de 10000ms"
+        ],
+        "orden_completacion": [
+          [
+            "categorias",
+            106.91
+          ],
+          [
+            "productos",
+            199.51
+          ],
+          [
+            "perfil",
+            520.42
+          ],
+          [
+            "notificaciones",
+            10011.56
+          ]
+        ]
+      },
+      {
+        "estrategia": "wait_first_completed",
+        "tiempo_total_ms": 10021.62,
+        "tiempo_primer_dato_ms": 107.38,
+        "datos_exitosos": 3,
+        "datos_fallidos": 1,
+        "tasa_exito": 75.0,
+        "errores": [
+          "notificaciones: notificaciones: Timeout después de 10000ms"
+        ],
+        "orden_completacion": [
+          [
+            "categorias",
+            107.38
+          ],
+          [
+            "productos",
+            198.58
+          ],
+          [
+            "perfil",
+            522.02
+          ],
+          [
+            "notificaciones",
+            10021.62
+          ]
+        ]
+      }
+    ],
+    "as_completed": [
+      {
+        "estrategia": "as_completed",
+        "tiempo_total_ms": 10003.22,
+        "tiempo_primer_dato_ms": null,
+        "datos_exitosos": 3,
+        "datos_fallidos": 1,
+        "tasa_exito": 75.0,
+        "errores": [
+          "Error: notificaciones: Timeout después de 10000ms"
+        ],
+        "orden_completacion": [
+          [
+            "unknown",
+            0.0
+          ],
+          [
+            "unknown",
+            108.11
+          ],
+          [
+            "unknown",
+            199.35
+          ]
+        ]
+      },
+      {
+        "estrategia": "as_completed",
+        "tiempo_total_ms": 10008.78,
+        "tiempo_primer_dato_ms": null,
+        "datos_exitosos": 3,
+        "datos_fallidos": 1,
+        "tasa_exito": 75.0,
+        "errores": [
+          "Error: notificaciones: Timeout después de 10000ms"
+        ],
+        "orden_completacion": [
+          [
+            "unknown",
+            0.0
+          ],
+          [
+            "unknown",
+            109.95
+          ],
+          [
+            "unknown",
+            187.46
+          ]
+        ]
+      },
+      {
+        "estrategia": "as_completed",
+        "tiempo_total_ms": 10004.96,
+        "tiempo_primer_dato_ms": null,
+        "datos_exitosos": 3,
+        "datos_fallidos": 1,
+        "tasa_exito": 75.0,
+        "errores": [
+          "Error: notificaciones: Timeout después de 10000ms"
+        ],
+        "orden_completacion": [
+          [
+            "unknown",
+            0.0
+          ],
+          [
+            "unknown",
+            109.18
+          ],
+          [
+            "unknown",
+            214.53
+          ]
+        ]
+      }
+    ],
+    "first_exception": [
+      {
+        "estrategia": "wait_first_exception",
+        "tiempo_total_ms": 10005.11,
+        "tiempo_primer_dato_ms": 10005.11,
+        "datos_exitosos": 3,
+        "datos_fallidos": 1,
+        "tasa_exito": 75.0,
+        "errores": [
+          "notificaciones: notificaciones: Timeout después de 10000ms",
+          "Canceladas 0 tareas pendientes"
+        ],
+        "orden_completacion": []
+      },
+      {
+        "estrategia": "wait_first_exception",
+        "tiempo_total_ms": 10003.98,
+        "tiempo_primer_dato_ms": 10003.98,
+        "datos_exitosos": 3,
+        "datos_fallidos": 1,
+        "tasa_exito": 75.0,
+        "errores": [
+          "notificaciones: notificaciones: Timeout después de 10000ms",
+          "Canceladas 0 tareas pendientes"
+        ],
+        "orden_completacion": []
+      },
+      {
+        "estrategia": "wait_first_exception",
+        "tiempo_total_ms": 9996.97,
+        "tiempo_primer_dato_ms": 9996.97,
+        "datos_exitosos": 3,
+        "datos_fallidos": 1,
+        "tasa_exito": 75.0,
+        "errores": [
+          "notificaciones: notificaciones: Timeout después de 10000ms",
+          "Canceladas 0 tareas pendientes"
+        ],
+        "orden_completacion": []
+      }
+    ]
+  }
+}

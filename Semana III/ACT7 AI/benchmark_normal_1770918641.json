@@ -1,0 +1,268 @@
+{
+  "escenario": "normal",
+  "timestamp": 1770918641.6615946,
+  "resultados": {
+    "gather_tolerante": [
+      {
+        "estrategia": "gather(tolerante)",
+        "tiempo_total_ms": 511.39,
+        "tiempo_primer_dato_ms": 511.39,
+        "datos_exitosos": 4,
+        "datos_fallidos": 0,
+        "tasa_exito": 100.0,
+        "errores": [],
+        "orden_completacion": []
+      },
+      {
+        "estrategia": "gather(tolerante)",
+        "tiempo_total_ms": 510.86,
+        "tiempo_primer_dato_ms": 510.86,
+        "datos_exitosos": 4,
+        "datos_fallidos": 0,
+        "tasa_exito": 100.0,
+        "errores": [],
+        "orden_completacion": []
+      },
+      {
+        "estrategia": "gather(tolerante)",
+        "tiempo_total_ms": 516.47,
+        "tiempo_primer_dato_ms": 516.47,
+        "datos_exitosos": 4,
+        "datos_fallidos": 0,
+        "tasa_exito": 100.0,
+        "errores": [],
+        "orden_completacion": []
+      }
+    ],
+    "gather_estricto": [
+      {
+        "estrategia": "gather(estricto)",
+        "tiempo_total_ms": 502.34,
+        "tiempo_primer_dato_ms": 502.34,
+        "datos_exitosos": 4,
+        "datos_fallidos": 0,
+        "tasa_exito": 100.0,
+        "errores": [],
+        "orden_completacion": []
+      },
+      {
+        "estrategia": "gather(estricto)",
+        "tiempo_total_ms": 508.49,
+        "tiempo_primer_dato_ms": 508.49,
+        "datos_exitosos": 4,
+        "datos_fallidos": 0,
+        "tasa_exito": 100.0,
+        "errores": [],
+        "orden_completacion": []
+      },
+      {
+        "estrategia": "gather(estricto)",
+        "tiempo_total_ms": 513.59,
+        "tiempo_primer_dato_ms": 513.59,
+        "datos_exitosos": 4,
+        "datos_fallidos": 0,
+        "tasa_exito": 100.0,
+        "errores": [],
+        "orden_completacion": []
+      }
+    ],
+    "first_completed": [
+      {
+        "estrategia": "wait_first_completed",
+        "tiempo_total_ms": 511.23,
+        "tiempo_primer_dato_ms": 106.92,
+        "datos_exitosos": 4,
+        "datos_fallidos": 0,
+        "tasa_exito": 100.0,
+        "errores": [],
+        "orden_completacion": [
+          [
+            "categorias",
+            106.92
+          ],
+          [
+            "productos",
+            205.01
+          ],
+          [
+            "notificaciones",
+            311.97
+          ],
+          [
+            "perfil",
+            511.23
+          ]
+        ]
+      },
+      {
+        "estrategia": "wait_first_completed",
+        "tiempo_total_ms": 511.19,
+        "tiempo_primer_dato_ms": 112.75,
+        "datos_exitosos": 4,
+        "datos_fallidos": 0,
+        "tasa_exito": 100.0,
+        "errores": [],
+        "orden_completacion": [
+          [
+            "categorias",
+            112.75
+          ],
+          [
+            "productos",
+            215.05
+          ],
+          [
+            "notificaciones",
+            302.46
+          ],
+          [
+            "perfil",
+            511.19
+          ]
+        ]
+      },
+      {
+        "estrategia": "wait_first_completed",
+        "tiempo_total_ms": 520.74,
+        "tiempo_primer_dato_ms": 109.3,
+        "datos_exitosos": 4,
+        "datos_fallidos": 0,
+        "tasa_exito": 100.0,
+        "errores": [],
+        "orden_completacion": [
+          [
+            "categorias",
+            109.3
+          ],
+          [
+            "productos",
+            202.7
+          ],
+          [
+            "notificaciones",
+            306.83
+          ],
+          [
+            "perfil",
+            520.74
+          ]
+        ]
+      }
+    ],
+    "as_completed": [
+      {
+        "estrategia": "as_completed",
+        "tiempo_total_ms": 524.66,
+        "tiempo_primer_dato_ms": null,
+        "datos_exitosos": 4,
+        "datos_fallidos": 0,
+        "tasa_exito": 100.0,
+        "errores": [],
+        "orden_completacion": [
+          [
+            "unknown",
+            0.0
+          ],
+          [
+            "unknown",
+            103.85
+          ],
+          [
+            "unknown",
+            222.53
+          ],
+          [
+            "unknown",
+            310.91
+          ]
+        ]
+      },
+      {
+        "estrategia": "as_completed",
+        "tiempo_total_ms": 514.64,
+        "tiempo_primer_dato_ms": null,
+        "datos_exitosos": 4,
+        "datos_fallidos": 0,
+        "tasa_exito": 100.0,
+        "errores": [],
+        "orden_completacion": [
+          [
+            "unknown",
+            0.0
+          ],
+          [
+            "unknown",
+            107.04
+          ],
+          [
+            "unknown",
+            212.13
+          ],
+          [
+            "unknown",
+            318.83
+          ]
+        ]
+      },
+      {
+        "estrategia": "as_completed",
+        "tiempo_total_ms": 509.96,
+        "tiempo_primer_dato_ms": null,
+        "datos_exitosos": 4,
+        "datos_fallidos": 0,
+        "tasa_exito": 100.0,
+        "errores": [],
+        "orden_completacion": [
+          [
+            "unknown",
+            0.0
+          ],
+          [
+            "unknown",
+            107.66
+          ],
+          [
+            "unknown",
+            213.31
+          ],
+          [
+            "unknown",
+            307.33
+          ]
+        ]
+      }
+    ],
+    "first_exception": [
+      {
+        "estrategia": "wait_first_exception",
+        "tiempo_total_ms": 510.28,
+        "tiempo_primer_dato_ms": 510.28,
+        "datos_exitosos": 4,
+        "datos_fallidos": 0,
+        "tasa_exito": 100.0,
+        "errores": [],
+        "orden_completacion": []
+      },
+      {
+        "estrategia": "wait_first_exception",
+        "tiempo_total_ms": 515.61,
+        "tiempo_primer_dato_ms": 515.61,
+        "datos_exitosos": 4,
+        "datos_fallidos": 0,
+        "tasa_exito": 100.0,
+        "errores": [],
+        "orden_completacion": []
+      },
+      {
+        "estrategia": "wait_first_exception",
+        "tiempo_total_ms": 523.57,
+        "tiempo_primer_dato_ms": 523.57,
+        "datos_exitosos": 4,
+        "datos_fallidos": 0,
+        "tasa_exito": 100.0,
+        "errores": [],
+        "orden_completacion": []
+      }
+    ]
+  }
+}

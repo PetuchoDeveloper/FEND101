@@ -1,0 +1,272 @@
+{
+  "escenario": "mixto",
+  "timestamp": 1770918804.3396783,
+  "resultados": {
+    "gather_tolerante": [
+      {
+        "estrategia": "gather(tolerante)",
+        "tiempo_total_ms": 402.56,
+        "tiempo_primer_dato_ms": 402.56,
+        "datos_exitosos": 4,
+        "datos_fallidos": 0,
+        "tasa_exito": 100.0,
+        "errores": [],
+        "orden_completacion": []
+      },
+      {
+        "estrategia": "gather(tolerante)",
+        "tiempo_total_ms": 400.78,
+        "tiempo_primer_dato_ms": 400.78,
+        "datos_exitosos": 4,
+        "datos_fallidos": 0,
+        "tasa_exito": 100.0,
+        "errores": [],
+        "orden_completacion": []
+      },
+      {
+        "estrategia": "gather(tolerante)",
+        "tiempo_total_ms": 393.76,
+        "tiempo_primer_dato_ms": 393.76,
+        "datos_exitosos": 4,
+        "datos_fallidos": 0,
+        "tasa_exito": 100.0,
+        "errores": [],
+        "orden_completacion": []
+      }
+    ],
+    "gather_estricto": [
+      {
+        "estrategia": "gather(estricto)",
+        "tiempo_total_ms": 401.05,
+        "tiempo_primer_dato_ms": 401.05,
+        "datos_exitosos": 4,
+        "datos_fallidos": 0,
+        "tasa_exito": 100.0,
+        "errores": [],
+        "orden_completacion": []
+      },
+      {
+        "estrategia": "gather(estricto)",
+        "tiempo_total_ms": 394.14,
+        "tiempo_primer_dato_ms": 394.14,
+        "datos_exitosos": 4,
+        "datos_fallidos": 0,
+        "tasa_exito": 100.0,
+        "errores": [],
+        "orden_completacion": []
+      },
+      {
+        "estrategia": "gather(estricto)",
+        "tiempo_total_ms": 407.0,
+        "tiempo_primer_dato_ms": 407.0,
+        "datos_exitosos": 4,
+        "datos_fallidos": 0,
+        "tasa_exito": 100.0,
+        "errores": [],
+        "orden_completacion": []
+      }
+    ],
+    "first_completed": [
+      {
+        "estrategia": "wait_first_completed",
+        "tiempo_total_ms": 403.02,
+        "tiempo_primer_dato_ms": 93.68,
+        "datos_exitosos": 4,
+        "datos_fallidos": 0,
+        "tasa_exito": 100.0,
+        "errores": [],
+        "orden_completacion": [
+          [
+            "categorias",
+            93.68
+          ],
+          [
+            "productos",
+            154.96
+          ],
+          [
+            "notificaciones",
+            262.73
+          ],
+          [
+            "perfil",
+            403.02
+          ]
+        ]
+      },
+      {
+        "estrategia": "wait_first_completed",
+        "tiempo_total_ms": 411.38,
+        "tiempo_primer_dato_ms": 93.73,
+        "datos_exitosos": 4,
+        "datos_fallidos": 0,
+        "tasa_exito": 100.0,
+        "errores": [],
+        "orden_completacion": [
+          [
+            "categorias",
+            93.73
+          ],
+          [
+            "productos",
+            153.88
+          ],
+          [
+            "notificaciones",
+            259.31
+          ],
+          [
+            "perfil",
+            411.38
+          ]
+        ]
+      },
+      {
+        "estrategia": "wait_first_completed",
+        "tiempo_total_ms": 415.37,
+        "tiempo_primer_dato_ms": 93.81,
+        "datos_exitosos": 3,
+        "datos_fallidos": 1,
+        "tasa_exito": 75.0,
+        "errores": [
+          "productos: productos: Error de conexión"
+        ],
+        "orden_completacion": [
+          [
+            "categorias",
+            93.81
+          ],
+          [
+            "productos",
+            155.04
+          ],
+          [
+            "notificaciones",
+            249.3
+          ],
+          [
+            "perfil",
+            415.37
+          ]
+        ]
+      }
+    ],
+    "as_completed": [
+      {
+        "estrategia": "as_completed",
+        "tiempo_total_ms": 418.07,
+        "tiempo_primer_dato_ms": null,
+        "datos_exitosos": 4,
+        "datos_fallidos": 0,
+        "tasa_exito": 100.0,
+        "errores": [],
+        "orden_completacion": [
+          [
+            "unknown",
+            0.0
+          ],
+          [
+            "unknown",
+            93.71
+          ],
+          [
+            "unknown",
+            155.43
+          ],
+          [
+            "unknown",
+            262.75
+          ]
+        ]
+      },
+      {
+        "estrategia": "as_completed",
+        "tiempo_total_ms": 414.02,
+        "tiempo_primer_dato_ms": null,
+        "datos_exitosos": 3,
+        "datos_fallidos": 1,
+        "tasa_exito": 75.0,
+        "errores": [
+          "Error: notificaciones: Error 500 del servidor"
+        ],
+        "orden_completacion": [
+          [
+            "unknown",
+            0.0
+          ],
+          [
+            "unknown",
+            93.71
+          ],
+          [
+            "unknown",
+            263.57
+          ]
+        ]
+      },
+      {
+        "estrategia": "as_completed",
+        "tiempo_total_ms": 408.82,
+        "tiempo_primer_dato_ms": null,
+        "datos_exitosos": 3,
+        "datos_fallidos": 1,
+        "tasa_exito": 75.0,
+        "errores": [
+          "Error: notificaciones: Error 500 del servidor"
+        ],
+        "orden_completacion": [
+          [
+            "unknown",
+            0.0
+          ],
+          [
+            "unknown",
+            92.33
+          ],
+          [
+            "unknown",
+            259.93
+          ]
+        ]
+      }
+    ],
+    "first_exception": [
+      {
+        "estrategia": "wait_first_exception",
+        "tiempo_total_ms": 257.45,
+        "tiempo_primer_dato_ms": 257.45,
+        "datos_exitosos": 2,
+        "datos_fallidos": 2,
+        "tasa_exito": 50.0,
+        "errores": [
+          "notificaciones: notificaciones: Error 500 del servidor",
+          "Canceladas 1 tareas pendientes"
+        ],
+        "orden_completacion": []
+      },
+      {
+        "estrategia": "wait_first_exception",
+        "tiempo_total_ms": 259.99,
+        "tiempo_primer_dato_ms": 259.99,
+        "datos_exitosos": 2,
+        "datos_fallidos": 2,
+        "tasa_exito": 50.0,
+        "errores": [
+          "notificaciones: notificaciones: Error 500 del servidor",
+          "Canceladas 1 tareas pendientes"
+        ],
+        "orden_completacion": []
+      },
+      {
+        "estrategia": "wait_first_exception",
+        "tiempo_total_ms": 398.51,
+        "tiempo_primer_dato_ms": 398.51,
+        "datos_exitosos": 4,
+        "datos_fallidos": 0,
+        "tasa_exito": 100.0,
+        "errores": [],
+        "orden_completacion": []
+      }
+    ]
+  }
+}
