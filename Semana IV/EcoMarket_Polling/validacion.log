@@ -1,0 +1,78 @@
+
+=== === === === === === === === === === 
+TESTER DE ESCENARIOS CRITICOS - MONITOR ECOSYSTEM
+=== === === === === === === === === === 
+
+Iniciando tests: 2026-03-12 11:09:40
+------------------------------------------------------------
+
+============================================================
+TEST A: Timeout (servidor lento)
+============================================================
+Simulando servidor que tarda 15s...
+Timeout configurado: 10s
+[11:09:40.804] [Observable] Nuevo observador suscrito a 'timeout'
+[11:09:40.804] [Observable] Nuevo observador suscrito a 'error_conexion'
+[11:09:43.082] [Polling] Error de conexión: Cannot connect to host localhost:9999 ssl:default [The remote computer refused the network connection]
+[OK] Observador timeout llamado: {'error': 'Cannot connect to host localhost:9999 ssl:default [The remote computer refused the network connection]'}
+[11:09:43.082] [Polling] Backoff aplicado - Nuevo intervalo: 7.5s
+Intervalo después de error: 7.5s
+[OK] TEST A PASADO: Timeout detectado y backoff aplicado
+
+============================================================
+TEST B: Respuesta HTML en lugar de JSON
+============================================================
+[11:09:43.119] [Observable] Nuevo observador suscrito a 'error_datos'
+[11:09:43.122] [Polling] Nuevo ETag recibido: None
+[11:09:43.122] [Polling] Error inesperado: 200, message='Attempt to decode JSON with unexpected mimetype: text/html; charset=utf-8', url='http://localhost:9998/productos'
+Excepción: ContentTypeError: 200, message='Attempt to decode JSON with unexpected mimetype: text/html; charset=utf-8', url='http://localhost:9998/productos'
+[OK] TEST B PASADO: HTML recibido, manejado correctamente
+
+============================================================
+TEST C: Observador que lanza excepción
+============================================================
+[11:09:43.122] [Observable] Nuevo observador suscrito a 'evento'
+[11:09:43.122] [Observable] Nuevo observador suscrito a 'evento'
+[11:09:43.122] [Observable] ERROR: Observador falló en 'evento': ¡Me rompí!
+[OK] Observador bueno fue llamado a pesar del roto
+[OK] TEST C PASADO: Observador roto no afecta a los demás
+
+============================================================
+TEST D: Datos con campo null
+============================================================
+[11:09:43.123] [Observable] Nuevo observador suscrito a 'datos_actualizados'
+[11:09:43.125] [Polling] Nuevo ETag recibido: null-etag
+[11:09:43.125] [Polling] Datos recibidos - Reset intervalo a 5s
+[OK] Datos recibidos: {'productos': None, 'status': 'error'}
+[OK] TEST D PASADO: Datos null manejados sin crashear
+
+============================================================
+TEST DE DESACOPLAMIENTO OBSERVER
+============================================================
+[11:09:43.125] [Observable] Nuevo observador suscrito a 'datos_actualizados'
+[11:09:43.125] [Observable] Observador removido de 'datos_actualizados'
+[OK] DESACOPLAMIENTO VERIFICADO:
+   - Se agregó observador_4 sin modificar ServicioPolling
+   - ServicioPolling no tiene referencia directa a observadores
+   - La interfaz Observable funciona correctamente
+
+============================================================
+TEST DE DETENCIÓN LIMPIA
+============================================================
+[11:09:43.125] [Polling] Polling iniciado - URL: http://localhost:3000/api/productos
+[11:09:43.125] [Polling] Intervalo base: 1s, Máximo: 60s
+[11:09:43.125] [Polling] === Ciclo #1 | Intervalo: 1.0s ===
+[11:09:45.131] [Polling] Señal de detención recibida - Terminando ciclo actual...
+[11:09:45.419] [Polling] Error de conexión: Cannot connect to host localhost:3000 ssl:default [The remote computer refused the network connection]
+[11:09:45.419] [Polling] Backoff aplicado - Nuevo intervalo: 1.5s
+[11:09:45.419] [Polling] Polling detenido limpiamente
+[OK] Polling detenido limpiamente
+[OK] TEST DE DETENCIÓN PASADO
+
+============================================================
+VALIDACIÓN COMPLETADA
+============================================================
+# PRUEBA DE DESACOPLAMIENTO:
+# Agregue observador_4 y lo quite sin modificar ServicioPolling. [OK]
+# ServicioPolling no tiene referencia directa a ningun observador. [OK]
+############################################################
