@@ -1,0 +1,1824 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semana 5: Evaluación y Retroalimentación — Examen Práctico 1 | AETL</title>
+    <style>
+:root {
+    --primary: #003a63;
+    --secondary: #005b96;
+    --accent: #f2a900;
+    --success: #28a745;
+    --warning: #ffc107;
+    --danger: #dc3545;
+    --info: #17a2b8;
+    --light: #f8f9fa;
+    --dark: #343a40;
+    --gray: #6c757d;
+    --border-radius: 8px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.7; color: var(--dark);
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+    min-height: 100vh;
+}
+.header-institucional {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: white; padding: 2rem; text-align: center;
+    box-shadow: 0 4px 20px rgba(0,58,99,0.3);
+}
+.header-institucional .logo-container {
+    display: flex; justify-content: center; align-items: center;
+    gap: 2rem; margin-bottom: 1rem; flex-wrap: wrap;
+}
+.header-institucional .escudo {
+    width: 80px; height: 80px; background: white; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: bold; color: var(--primary); font-size: 1.2rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+.header-institucional h1 { font-size: 1.8rem; margin-bottom: 0.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+.header-institucional .subtitulo { font-size: 1.1rem; opacity: 0.9; }
+.header-institucional .badge-semana {
+    display: inline-block; background: var(--accent); color: var(--primary);
+    padding: 0.5rem 1.5rem; border-radius: 25px; font-weight: bold;
+    margin-top: 1rem; font-size: 1rem;
+}
+.progress-container {
+    background: white; padding: 1rem 2rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: sticky; top: 0; z-index: 100;
+}
+.progress-bar {
+    display: flex; justify-content: space-between; align-items: center;
+    max-width: 900px; margin: 0 auto; position: relative;
+}
+.progress-bar::before {
+    content: ''; position: absolute; top: 50%; left: 0; right: 0;
+    height: 4px; background: #e0e0e0; transform: translateY(-50%); z-index: 1;
+}
+.progress-step {
+    display: flex; flex-direction: column; align-items: center;
+    position: relative; z-index: 2; cursor: pointer;
+    transition: transform 0.3s; text-decoration: none;
+}
+.progress-step:hover { transform: scale(1.1); }
+.progress-step .step-icon {
+    width: 45px; height: 45px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; background: white; border: 3px solid #e0e0e0;
+    transition: all 0.3s;
+}
+.progress-step.active .step-icon {
+    background: var(--secondary); border-color: var(--secondary);
+    color: white; box-shadow: 0 4px 15px rgba(0,91,150,0.4);
+}
+.progress-step.completed .step-icon {
+    background: var(--success); border-color: var(--success); color: white;
+}
+.progress-step .step-label {
+    font-size: 0.75rem; margin-top: 0.5rem; color: var(--gray);
+    font-weight: 600; text-transform: uppercase;
+}
+.progress-step.active .step-label { color: var(--secondary); }
+.nav-container {
+    background: var(--primary); padding: 0.8rem 2rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+.nav-links {
+    display: flex; justify-content: center; gap: 0.5rem;
+    flex-wrap: wrap; max-width: 1200px; margin: 0 auto;
+}
+.nav-links a {
+    color: white; text-decoration: none; padding: 0.5rem 1rem;
+    border-radius: 20px; font-size: 0.9rem; transition: all 0.3s;
+    border: 1px solid transparent;
+}
+.nav-links a:hover { background: rgba(255,255,255,0.15); border-color: var(--accent); }
+.container { max-width: 1100px; margin: 0 auto; padding: 2rem; }
+.fase-section {
+    background: white; border-radius: var(--border-radius);
+    margin-bottom: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    overflow: hidden; animation: fadeIn 0.5s ease-out;
+}
+.fase-header {
+    padding: 1.5rem 2rem; color: white;
+    display: flex; align-items: center; gap: 1rem;
+}
+.fase-header.comprende { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+.fase-header.aplica { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+.fase-header.reflexiona { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+.fase-header.valida { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+.fase-header.profundiza { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+.fase-header .fase-icon {
+    font-size: 2rem; width: 60px; height: 60px;
+    background: rgba(255,255,255,0.2); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+}
+.fase-header .fase-info h2 { font-size: 1.5rem; margin-bottom: 0.3rem; }
+.fase-header .fase-info .bloom-tag { font-size: 0.85rem; opacity: 0.9; font-weight: 500; }
+.fase-content { padding: 2rem; }
+.objetivos-box {
+    background: linear-gradient(135deg, #e8f4fd 0%, #d1e8fa 100%);
+    border-left: 4px solid var(--secondary); padding: 1.5rem;
+    border-radius: 0 var(--border-radius) var(--border-radius) 0;
+    margin-bottom: 1.5rem;
+}
+.objetivos-box h4 { color: var(--primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+.objetivos-box ul { list-style: none; padding-left: 0; }
+.objetivos-box li { padding: 0.5rem 0; padding-left: 1.5rem; position: relative; }
+.objetivos-box li::before { content: '🎯'; position: absolute; left: 0; }
+.context-box { padding: 1.2rem 1.5rem; border-radius: var(--border-radius); margin: 1.5rem 0; border-left: 4px solid; }
+.context-box.tip { background: linear-gradient(135deg, #e3f9e5 0%, #c8f7dc 100%); border-color: var(--success); }
+.context-box.warning { background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%); border-color: var(--warning); }
+.context-box.danger { background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%); border-color: var(--danger); }
+.context-box.success { background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); border-color: var(--success); }
+.context-box.info { background: linear-gradient(135deg, #e1f5fe 0%, #b3e5fc 100%); border-color: var(--info); }
+.context-box .box-title { font-weight: bold; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; }
+.reto-ia {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: white; border-radius: var(--border-radius); margin: 1.5rem 0;
+    overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+.reto-ia-header {
+    background: linear-gradient(90deg, var(--accent) 0%, #e89900 100%);
+    color: var(--primary); padding: 1rem 1.5rem;
+    display: flex; align-items: center; gap: 1rem;
+}
+.reto-ia-header .reto-numero {
+    background: var(--primary); color: var(--accent);
+    width: 40px; height: 40px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: bold; font-size: 1.1rem;
+}
+.reto-ia-header h4 { flex: 1; font-size: 1.1rem; }
+.reto-ia-body { padding: 1.5rem; }
+.reto-ia .rol-ia {
+    background: rgba(242,169,0,0.15); border: 1px solid var(--accent);
+    padding: 0.8rem 1rem; border-radius: var(--border-radius);
+    margin-bottom: 1rem; font-size: 0.9rem;
+}
+.reto-ia .rol-ia strong { color: var(--accent); }
+.prompt-box {
+    background: #0d1117; border: 1px solid #30363d;
+    border-radius: var(--border-radius); padding: 1.2rem; margin: 1rem 0;
+    font-family: 'Consolas', 'Monaco', monospace; font-size: 0.9rem;
+    line-height: 1.6; white-space: pre-wrap; color: #c9d1d9;
+}
+.prompt-box::before {
+    content: '📝 PROMPT'; display: block; color: var(--accent);
+    font-weight: bold; margin-bottom: 0.8rem; font-family: 'Segoe UI', sans-serif;
+}
+.entregable-box {
+    background: rgba(40,167,69,0.15); border: 1px dashed var(--success);
+    padding: 1rem; border-radius: var(--border-radius); margin-top: 1rem;
+}
+.entregable-box::before {
+    content: '📦 ENTREGABLE ESPERADO'; display: block; color: var(--success);
+    font-weight: bold; margin-bottom: 0.5rem;
+}
+.checkpoint {
+    background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+    border-radius: var(--border-radius); padding: 1.5rem; margin: 1.5rem 0;
+}
+.checkpoint h4 { color: var(--primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+.checkpoint .pregunta {
+    background: white; padding: 1rem; border-radius: var(--border-radius);
+    margin: 0.8rem 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    position: relative; padding-left: 3rem;
+}
+.checkpoint .pregunta::before { content: '❓'; position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); font-size: 1.2rem; }
+.ascii-diagram {
+    background: #1e1e1e; color: #00ff00;
+    font-family: 'Consolas', 'Monaco', monospace; padding: 1.5rem;
+    border-radius: var(--border-radius); overflow-x: auto;
+    margin: 1.5rem 0; font-size: 0.85rem; line-height: 1.4; white-space: pre;
+}
+.diagrama-descripcion {
+    background: #f8f9fa; border-left: 4px solid var(--info);
+    padding: 1rem; margin-top: -1rem; margin-bottom: 1.5rem;
+    font-size: 0.9rem; color: var(--dark);
+}
+.escenario-inmersivo {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: white; padding: 2rem; border-radius: var(--border-radius);
+    margin-bottom: 2rem; position: relative; overflow: hidden;
+}
+.escenario-inmersivo::before {
+    content: ''; position: absolute; top: 0; right: 0;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+    opacity: 0.1;
+}
+.escenario-inmersivo h3 { color: var(--accent); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+.escenario-inmersivo .personaje {
+    background: rgba(255,255,255,0.1); padding: 1rem;
+    border-radius: var(--border-radius); margin: 1rem 0;
+    border-left: 3px solid var(--accent);
+}
+.escenario-inmersivo .dialogo {
+    font-style: italic; margin: 1rem 0; padding-left: 1rem;
+    border-left: 2px solid rgba(255,255,255,0.3);
+}
+.fundamentos-section {
+    background: white; border-radius: var(--border-radius);
+    margin-bottom: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.08); overflow: hidden;
+}
+.fundamentos-header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: white; padding: 1.5rem 2rem;
+}
+.constructo-card {
+    border: 1px solid #e0e0e0; border-radius: var(--border-radius);
+    margin: 1rem; overflow: hidden; transition: all 0.3s;
+}
+.constructo-card:hover { box-shadow: 0 8px 25px rgba(0,0,0,0.1); transform: translateY(-2px); }
+.constructo-card .card-header { padding: 1rem 1.5rem; font-weight: bold; display: flex; align-items: center; gap: 0.8rem; }
+.constructo-card:nth-child(1) .card-header { background: #e8f4fd; color: var(--primary); }
+.constructo-card:nth-child(2) .card-header { background: #fff3e0; color: #e65100; }
+.constructo-card:nth-child(3) .card-header { background: #e8f5e9; color: #2e7d32; }
+.constructo-card:nth-child(4) .card-header { background: #f3e5f5; color: #7b1fa2; }
+.constructo-card:nth-child(5) .card-header { background: #fce4ec; color: #c2185b; }
+.constructo-card .card-body { padding: 1.5rem; font-size: 0.95rem; }
+.constructo-card .referencia { font-size: 0.85rem; color: var(--gray); margin-bottom: 0.8rem; }
+.constructo-card .operacional {
+    background: #f8f9fa; padding: 0.8rem; border-radius: var(--border-radius);
+    margin-top: 1rem; font-size: 0.9rem; border-left: 3px solid var(--accent);
+}
+.glosario-section {
+    background: white; border-radius: var(--border-radius);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08); overflow: hidden; margin-bottom: 2rem;
+}
+.glosario-header { background: var(--dark); color: white; padding: 1.5rem 2rem; }
+.glosario-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem; padding: 1.5rem;
+}
+.termino-card { background: #f8f9fa; padding: 1rem; border-radius: var(--border-radius); border-left: 4px solid var(--secondary); }
+.termino-card.aetl { border-left-color: var(--accent); }
+.termino-card dt { font-weight: bold; color: var(--primary); margin-bottom: 0.5rem; }
+.termino-card dd { font-size: 0.9rem; color: var(--gray); }
+.evaluacion-section {
+    background: white; border-radius: var(--border-radius);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08); overflow: hidden; margin-bottom: 2rem;
+}
+.evaluacion-header {
+    background: linear-gradient(135deg, var(--success) 0%, #20c997 100%);
+    color: white; padding: 1.5rem 2rem;
+}
+.criterio-item { display: flex; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid #e0e0e0; }
+.criterio-item:last-child { border-bottom: none; }
+.criterio-item .fase-badge {
+    background: var(--secondary); color: white; padding: 0.3rem 0.8rem;
+    border-radius: 15px; font-size: 0.8rem; margin-right: 1rem;
+    min-width: 100px; text-align: center;
+}
+.criterio-item .puntos {
+    background: var(--accent); color: var(--primary); padding: 0.5rem 1rem;
+    border-radius: var(--border-radius); font-weight: bold; margin-left: auto;
+}
+.referencias-section {
+    background: white; border-radius: var(--border-radius);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08); padding: 2rem; margin-bottom: 2rem;
+}
+.referencias-section h3 { color: var(--primary); margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--accent); }
+.referencia-item { padding: 0.8rem 0; border-bottom: 1px dashed #e0e0e0; font-size: 0.95rem; }
+.referencia-item:last-child { border-bottom: none; }
+code { background: #f1f3f4; padding: 0.2rem 0.5rem; border-radius: 4px; font-family: 'Consolas', monospace; font-size: 0.9em; color: #d63384; }
+pre code { display: block; padding: 1rem; background: #1e1e1e; color: #d4d4d4; overflow-x: auto; }
+.footer { background: var(--primary); color: white; text-align: center; padding: 2rem; margin-top: 2rem; }
+.footer .modelo-badge { display: inline-block; background: var(--accent); color: var(--primary); padding: 0.5rem 1.5rem; border-radius: 25px; font-weight: bold; margin-bottom: 1rem; }
+.tabla-comparativa { width: 100%; border-collapse: collapse; margin: 1.5rem 0; background: white; border-radius: var(--border-radius); overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+.tabla-comparativa th { background: var(--primary); color: white; padding: 1rem; text-align: left; }
+.tabla-comparativa td { padding: 0.8rem 1rem; border-bottom: 1px solid #e0e0e0; }
+.tabla-comparativa tr:last-child td { border-bottom: none; }
+.tabla-comparativa tr:hover { background: #f8f9fa; }
+.prerrequisitos-box { background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); border: 2px solid var(--accent); border-radius: var(--border-radius); padding: 1.5rem; margin-bottom: 2rem; }
+.prerrequisitos-box h4 { color: var(--primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+.prerrequisitos-box ul { margin-left: 1.5rem; }
+.prerrequisitos-box li { margin-bottom: 0.5rem; }
+.conexion-semana-anterior { background: linear-gradient(135deg, #e8f4fd 0%, #bbdefb 100%); border-left: 4px solid var(--secondary); padding: 1.2rem 1.5rem; border-radius: 0 var(--border-radius) var(--border-radius) 0; margin-bottom: 1.5rem; }
+.conexion-semana-anterior h4 { color: var(--primary); margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; }
+.reto-badge { display: inline-block; padding: 0.25rem 0.75rem; border-radius: 15px; font-size: 0.75rem; font-weight: bold; text-transform: uppercase; margin-left: 0.5rem; }
+.reto-badge.esencial { background: var(--success); color: white; }
+.reto-badge.avanzado { background: linear-gradient(135deg, #9c27b0 0%, #673ab7 100%); color: white; }
+.invariantes-box { background: linear-gradient(135deg, #fce4ec 0%, #f8bbd9 100%); border: 2px dashed #c2185b; border-radius: var(--border-radius); padding: 1.5rem; margin-top: 2rem; }
+.invariantes-box h4 { color: #880e4f; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+.checklist-box { background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); border: 2px solid var(--success); border-radius: var(--border-radius); padding: 1.5rem; margin: 1.5rem 0; }
+.checklist-box h4 { color: #1b5e20; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+.checklist-item { background: white; padding: 0.8rem 1rem; border-radius: var(--border-radius); margin: 0.6rem 0; display: flex; align-items: flex-start; gap: 0.8rem; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+.checklist-item .check-icon { font-size: 1.1rem; min-width: 24px; }
+.checklist-item .diagnostico { font-size: 0.85rem; color: var(--gray); margin-top: 0.3rem; font-style: italic; }
+.errores-comunes { background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); border: 2px solid var(--warning); border-radius: var(--border-radius); padding: 1.5rem; margin: 1.5rem 0; }
+.errores-comunes h4 { color: #e65100; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+.error-item { background: white; padding: 1rem; border-radius: var(--border-radius); margin: 0.8rem 0; border-left: 4px solid var(--warning); }
+.error-item strong { color: #e65100; }
+/* Estilos adicionales para Semana 5 (Evaluación) */
+.examen-card {
+    background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
+    color: white; border-radius: var(--border-radius); padding: 1.5rem;
+    margin: 1rem 0; border-left: 4px solid var(--accent);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+.examen-card h4 { color: var(--accent); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+.rubrica-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+.rubrica-table th { background: var(--primary); color: white; padding: 0.8rem 1rem; text-align: left; font-size: 0.9rem; }
+.rubrica-table td { padding: 0.7rem 1rem; border-bottom: 1px solid #e0e0e0; font-size: 0.9rem; vertical-align: top; }
+.rubrica-table tr:nth-child(even) { background: #f8f9fa; }
+.rubrica-table tr:hover { background: #e8f4fd; }
+.nivel-badge { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.75rem; font-weight: bold; }
+.nivel-badge.excelente { background: #28a745; color: white; }
+.nivel-badge.satisfactorio { background: #17a2b8; color: white; }
+.nivel-badge.basico { background: #ffc107; color: #333; }
+.nivel-badge.insuficiente { background: #dc3545; color: white; }
+.tema-repaso {
+    background: white; border: 1px solid #e0e0e0; border-radius: var(--border-radius);
+    margin: 1rem 0; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.tema-repaso .tema-header {
+    padding: 1rem 1.5rem; display: flex; align-items: center; gap: 1rem;
+    cursor: pointer; font-weight: bold;
+}
+.tema-repaso:nth-child(1) .tema-header { background: linear-gradient(90deg, #e8f4fd, #d1e8fa); color: var(--primary); }
+.tema-repaso:nth-child(2) .tema-header { background: linear-gradient(90deg, #e8f5e9, #c8e6c9); color: #2e7d32; }
+.tema-repaso:nth-child(3) .tema-header { background: linear-gradient(90deg, #fff3e0, #ffe0b2); color: #e65100; }
+.tema-repaso:nth-child(4) .tema-header { background: linear-gradient(90deg, #f3e5f5, #e1bee7); color: #7b1fa2; }
+.tema-repaso .tema-body { padding: 1.5rem; border-top: 1px solid #e0e0e0; }
+.semana-badge { background: var(--secondary); color: white; padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.75rem; font-weight: bold; margin-left: 0.5rem; }
+.hito-feedback {
+    background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+    border: 2px solid #9c27b0; border-radius: var(--border-radius);
+    padding: 1.5rem; margin: 1.5rem 0;
+}
+.hito-feedback h4 { color: #7b1fa2; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+/* Accesibilidad: visualmente oculto, audible por lectores de pantalla */
+.sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+/* Zero-tolerance rubrica */
+.zero-tolerance-box {
+    background: linear-gradient(135deg, #1a0010 0%, #3b0020 100%);
+    border: 2px solid #dc3545; border-radius: var(--border-radius);
+    padding: 1.5rem; margin: 1.5rem 0; color: #fff;
+}
+.zero-tolerance-box h4 { color: #ff6b6b; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+.zero-tolerance-item {
+    background: rgba(220,53,69,0.15); border-left: 4px solid #dc3545;
+    padding: 0.8rem 1rem; border-radius: 0 var(--border-radius) var(--border-radius) 0;
+    margin: 0.8rem 0; font-size: 0.92rem;
+}
+.zero-tolerance-item strong { color: #ff6b6b; }
+/* Banner post-examen */
+.post-examen-banner {
+    background: linear-gradient(135deg, #2d1b00 0%, #4a2f00 100%);
+    border: 2px solid var(--accent); border-radius: var(--border-radius);
+    padding: 1rem 1.5rem; margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+}
+.post-examen-banner .banner-icon { font-size: 1.8rem; flex-shrink: 0; }
+.post-examen-banner .banner-text { flex: 1; }
+.post-examen-banner .banner-text strong { color: var(--accent); font-size: 1rem; display: block; margin-bottom: 0.3rem; }
+.post-examen-banner .banner-text p { font-size: 0.88rem; color: rgba(255,255,255,0.85); margin: 0; }
+/* Plan B simulacro */
+.plan-b-box {
+    background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+    border: 2px solid var(--danger); border-radius: var(--border-radius);
+    padding: 1.5rem; margin: 1.5rem 0;
+}
+.plan-b-box h4 { color: #b71c1c; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 768px) {
+    .header-institucional h1 { font-size: 1.4rem; }
+    .container { padding: 1rem; }
+    .fase-header { flex-direction: column; text-align: center; }
+    .progress-step .step-label { display: none; }
+    .nav-links { flex-direction: column; align-items: center; }
+    .criterio-item { flex-direction: column; gap: 0.5rem; text-align: center; }
+    .criterio-item .puntos { margin-left: 0; margin-top: 0.5rem; }
+}
+@media print { .progress-container, .nav-container { display: none; } body { background: white; } .reto-ia { break-inside: avoid; } }
+.text-center { text-align: center; } .text-primary { color: var(--primary); } .text-accent { color: var(--accent); } .text-muted { color: var(--gray); }
+.mt-1 { margin-top: 0.5rem; } .mt-2 { margin-top: 1rem; } .mt-3 { margin-top: 1.5rem; } .mt-4 { margin-top: 2rem; }
+.mb-1 { margin-bottom: 0.5rem; } .mb-2 { margin-bottom: 1rem; } .mb-3 { margin-bottom: 1.5rem; } .mb-4 { margin-bottom: 2rem; }
+    </style>
+</head>
+<body>
+    <!-- ========== HEADER INSTITUCIONAL ========== -->
+    <header class="header-institucional">
+        <div class="logo-container">
+            <div class="escudo">UAN</div>
+            <div>
+                <h1>Programación Distribuida del Lado del Cliente</h1>
+                <p class="subtitulo">Licenciatura en Sistemas Computacionales</p>
+            </div>
+            <div class="escudo">LSC</div>
+        </div>
+        <span class="badge-semana">📅 Semana 5 de 15 · Examen Práctico 1 · Consolidación del Cliente REST Básico</span>
+    </header>
+
+    <!-- ========== BARRA DE PROGRESO ========== -->
+    <div class="progress-container">
+        <div class="progress-bar">
+            <a href="#comprende" class="progress-step active">
+                <div class="step-icon">📖</div>
+                <span class="step-label">Comprende</span>
+            </a>
+            <a href="#aplica" class="progress-step">
+                <div class="step-icon">⚡</div>
+                <span class="step-label">Aplica</span>
+            </a>
+            <a href="#reflexiona" class="progress-step">
+                <div class="step-icon">🔍</div>
+                <span class="step-label">Reflexiona</span>
+            </a>
+            <a href="#valida" class="progress-step">
+                <div class="step-icon">✔</div>
+                <span class="step-label">Valida</span>
+            </a>
+            <a href="#profundiza" class="progress-step">
+                <div class="step-icon">🚀</div>
+                <span class="step-label">Profundiza</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- ========== NAVEGACIÓN ========== -->
+    <nav class="nav-container">
+        <div class="nav-links">
+            <a href="#escenario">🎬 Escenario</a>
+            <a href="#fundamentos">📚 Fundamentos</a>
+            <a href="#comprende">📖 Comprende</a>
+            <a href="#aplica">⚡ Aplica</a>
+            <a href="#reflexiona">🔍 Reflexiona</a>
+            <a href="#valida">✔ Valida</a>
+            <a href="#profundiza">🚀 Profundiza</a>
+            <a href="#evaluacion">📊 Evaluación</a>
+            <a href="#glosario">📖 Glosario</a>
+            <a href="#referencias">📚 Referencias</a>
+        </div>
+    </nav>
+
+    <main class="container">
+
+        <!-- ========== PRERREQUISITOS ========== -->
+        <div class="prerrequisitos-box">
+            <h4>⚠️ Para tener éxito esta semana, asegúrate de dominar...</h4>
+            <ul>
+                <li><strong>HTTP y REST (Semanas 1–2):</strong> Verbos GET/POST/PUT/DELETE, códigos 2xx/4xx/5xx, headers, query params, body JSON, y construcción de peticiones desde el cliente.</li>
+                <li><strong>Parseo y validación de respuestas (Semana 2):</strong> Deserializar JSON, verificar campos esperados, manejar campos nulos o con tipo incorrecto sin que el cliente crashee.</li>
+                <li><strong>Programación asíncrona (Semana 3):</strong> async/await, timeouts por petición, cancelación de tareas, coordinación de peticiones concurrentes con <code>gather()</code> o <code>Promise.all()</code>.</li>
+                <li><strong>Polling y Observer (Semana 4):</strong> Ciclo de polling adaptativo, ETag para detección de cambios, patrón Observer para desacoplar la fuente de datos de los observadores.</li>
+                <li><strong>Manejo de errores completo:</strong> Reintentos ante 5xx, no reintentar ante 4xx, manejar excepciones de red (timeout, conexión rechazada) sin silenciarlas.</li>
+            </ul>
+            <p style="margin-top: 1rem; font-style: italic;">💡 Si encuentras un punto débil en esta lista, el Reto 1 de COMPRENDE está diseñado exactamente para diagnosticarlo y reforzarlo antes del examen.</p>
+        </div>
+
+        <!-- ========== CONEXIÓN CON SEMANA ANTERIOR ========== -->
+        <div class="conexion-semana-anterior">
+            <h4>🔗 Conexión directa con Semana 4 — y cierre de la Fase 1 (Semanas 1–4)</h4>
+            <p>En la Semana 4 construiste el Monitor de Inventario con polling adaptativo y el patrón Observer. Eso marcó el cierre de la <strong>Unidad II: Patrones de Comunicación</strong>. Esta semana integras y consolidas todo lo que construiste en las Semanas 1–4 para demostrar que puedes implementar un <strong>cliente REST completo, asíncrono y con polling</strong> de forma autónoma — que es exactamente lo que se evalúa en el Examen Práctico 1.</p>
+            <p style="margin-top: 0.8rem;">Además, la retroalimentación del Hito 1 que recibirás esta semana te da información accionable sobre tu cliente: qué funciona bien, dónde reforzar, y qué necesitas mejorar antes de construir la arquitectura en capas de la Semana 6.</p>
+        </div>
+
+        <!-- ========== ESCENARIO INMERSIVO ========== -->
+        <div id="escenario" class="escenario-inmersivo">
+            <h3>🎬 Escenario Profesional: La Revisión Técnica en TechNova</h3>
+            <div class="personaje">
+                <strong>📍 Contexto:</strong> Sala de revisiones técnicas — TechNova, oficinas centrales. Es el cierre del primer sprint de integración con EcoMarket. El equipo de arquitectura ha convocado una revisión del cliente que construiste en las últimas cuatro semanas.
+            </div>
+            <div class="dialogo">
+                "El cliente que desarrollaste hace peticiones GET y POST correctamente, maneja errores 4xx y 5xx de forma diferenciada, ejecuta operaciones en paralelo con timeouts, y tiene un monitor de inventario con polling adaptativo y tres observadores desacoplados. Lo hemos revisado. Ahora viene la parte difícil: mañana tienes que <strong>demostrarlo en vivo</strong>, sin código de referencia, con un escenario que no viste antes."
+            </div>
+            <div class="personaje">
+                <strong>La arquitecta de TechNova, Sofía Ramírez, continúa:</strong>
+                <div class="dialogo">
+                    "En la industria, un desarrollador no 'memoriza' código — <strong>entiende los patrones</strong> lo suficientemente bien como para reconstruirlos en un contexto nuevo. El examen de mañana simula eso: un endpoint diferente, una estructura de respuesta diferente, pero los mismos principios que aplicaste en EcoMarket. La pregunta es: ¿puedes trasladar lo que aprendiste a un problema nuevo en tiempo limitado?"
+                </div>
+            </div>
+            <p style="margin-top: 1rem; opacity: 0.85;">Hoy es tu oportunidad de prepararte. No de memorizar código — de <strong>consolidar los patrones</strong> que ya construiste y entender por qué tomaste cada decisión de diseño en tu cliente.</p>
+        </div>
+
+        <!-- ========== FUNDAMENTOS TEÓRICOS AETL ========== -->
+        <section id="fundamentos" class="fundamentos-section">
+            <div class="fundamentos-header">
+                <h2>📚 Fundamentos Teóricos AETL — Semana 5</h2>
+                <p>Los 5 constructos del modelo, aplicados al contexto de evaluación y consolidación</p>
+            </div>
+            <div style="padding: 1.5rem;">
+
+                <div class="constructo-card">
+                    <div class="card-header">🧩 1. Constructivismo — La Evaluación como Construcción de Conocimiento</div>
+                    <div class="card-body">
+                        <div class="referencia">Piaget (1978); Vygotsky (1978); Bognár (2024)</div>
+                        <p>El examen práctico no es un "test de memoria": es una situación donde el estudiante <strong>construye activamente</strong> un cliente en un contexto nuevo, usando los esquemas mentales que desarrolló en semanas anteriores. Vygotsky subraya que la demostración de competencia en la <em>Zona de Desarrollo Próximo</em> — sin el andamiaje de ejemplos vistos — es evidencia real de aprendizaje.</p>
+                        <div class="operacional">
+                            <strong>Constructo operacional esta semana:</strong> Usa la IA hoy para consolidar tu comprensión de los patrones — no para que los implemente por ti. El examen evalúa tu capacidad de reconstruir el patrón en un contexto nuevo, lo que requiere comprensión profunda, no memorización.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="constructo-card">
+                    <div class="card-header">📋 2. Aprendizaje Autorregulado (SRL) — Diagnóstico Activo Previo al Examen</div>
+                    <div class="card-body">
+                        <div class="referencia">Zimmerman (2000); Chiu (2024); Sari et al. (2025)</div>
+                        <p>El SRL establece que el aprendizaje efectivo incluye la fase de <strong>autoevaluación</strong>: identificar qué sabes bien y qué tienes débil <em>antes</em> del examen, no después. El ciclo completo es: planificación (¿qué necesito repasar?) → ejecución (simular el examen) → reflexión (¿qué gaps encontré?).</p>
+                        <div class="operacional">
+                            <strong>Constructo operacional esta semana:</strong> El Reto 1 en COMPRENDE es un diagnóstico activo: formúlale a la IA preguntas específicas sobre los conceptos donde tienes más duda y mide con honestidad cuáles puedes explicar con tus propias palabras.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="constructo-card">
+                    <div class="card-header">⚖️ 3. Teoría de la Carga Cognitiva — Preparar sin Saturar</div>
+                    <div class="card-body">
+                        <div class="referencia">Sweller (1988/2020); Mahdi et al. (2025)</div>
+                        <p>En una semana de evaluación, el riesgo es la <strong>carga extrínseca por pánico</strong>: querer repasar todo al mismo tiempo, lo que satura la memoria de trabajo sin consolidar nada. La estrategia óptima es reducir la carga extrínseca (no revisar 4 semanas en paralelo) y concentrar la carga germana en los <em>patrones</em> que el examen evalúa: construcción de petición → manejo de respuesta → manejo de error.</p>
+                        <div class="operacional">
+                            <strong>Constructo operacional esta semana:</strong> No repases sintaxis — repasa <em>decisiones</em>. ¿Por qué <code>timeout=10</code> y no <code>timeout=60</code>? ¿Por qué no reintentar un 4xx? ¿Por qué usar Observer en lugar de llamar directamente a la UI? Esas decisiones son las que se evalúan.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="constructo-card">
+                    <div class="card-header">🤝 4. Agencia Compartida — Tú eres el Arquitecto, la IA es el Revisor</div>
+                    <div class="card-body">
+                        <div class="referencia">Bandura (2001); Brod et al. (2023)</div>
+                        <p>Esta semana, la <strong>agencia compartida</strong> toma una forma particular: la IA actúa como <em>evaluador crítico</em> de tus respuestas, no como proveedor de respuestas. Cuando hagas el simulacro del examen (Reto 2), tú propones el código y la IA señala lo que falta o está mal — exactamente como un revisor técnico senior en la industria.</p>
+                        <div class="operacional">
+                            <strong>Constructo operacional esta semana:</strong> En el simulacro, escribe primero, pide retroalimentación después. Si le pides a la IA el código completo antes de intentarlo, estás renunciando a tu rol de Arquitecto del Cliente — y el examen real no tendrá IA que lo haga por ti.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="constructo-card">
+                    <div class="card-header">🌐 5. Taxonomía de Bloom — Evaluar = Crear bajo Restricciones</div>
+                    <div class="card-body">
+                        <div class="referencia">Anderson et al. (2001)</div>
+                        <p>El Examen Práctico 1 opera en los niveles más altos de Bloom aplicados al código cliente: <strong>Aplicar</strong> (implementar el patrón en un contexto nuevo), <strong>Analizar</strong> (identificar qué falta en el manejo de errores), y <strong>Evaluar</strong> (justificar las decisiones de diseño). No es un examen de nivel "Recordar" — no hay código para memorizar.</p>
+                        <div class="operacional">
+                            <strong>Constructo operacional esta semana:</strong> La rúbrica del examen tiene criterios explícitos de Aplicar y Evaluar. Antes del examen, asegúrate de poder explicar oralmente cada decisión de diseño de tu cliente: ¿por qué este timeout? ¿por qué esta estructura de errores? ¿qué pasaría si eliminas el Observer?
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- FASE 1: COMPRENDE                                          -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <section id="comprende" class="fase-section">
+            <div class="fase-header comprende">
+                <div class="fase-icon">📖</div>
+                <div class="fase-info">
+                    <h2>FASE 1: COMPRENDE — Consolidación de las Semanas 1–4</h2>
+                    <span class="bloom-tag">Nivel Bloom: Recordar → Comprender → Analizar</span>
+                </div>
+            </div>
+            <div class="fase-content">
+
+                <div class="objetivos-box">
+                    <h4>🎯 Objetivos de Aprendizaje</h4>
+                    <ul>
+                        <li><strong>Identificar</strong> los conceptos de las Semanas 1–4 que son directamente evaluables en el Examen Práctico 1</li>
+                        <li><strong>Explicar con tus propias palabras</strong> el flujo completo de un cliente: preparar petición → enviar → esperar → validar respuesta → manejar errores</li>
+                        <li><strong>Reconocer</strong> por qué cada decisión de diseño del cliente (timeout, reintentos, Observer) responde a un problema real de comunicación distribuida</li>
+                        <li><strong>Diagnosticar</strong> con honestidad cuáles de los 4 temas de las semanas anteriores dominas y cuáles necesitas reforzar antes del examen</li>
+                    </ul>
+                </div>
+
+                <h3>Repaso Integrado: El Mapa de tu Cliente de las Semanas 1–4</h3>
+                <p>Antes de repasar tema por tema, conviene ver el <strong>mapa completo</strong> de lo que construiste. Tu cliente no es una colección de piezas sueltas — es un sistema con capas bien definidas:</p>
+
+                <div class="ascii-diagram" role="img" aria-label="Diagrama: Mapa completo del cliente distribuido con tres capas — Presentación/Observadores (Semana 4), Sincronización con Polling y Observer (Semana 4), y Comunicación HTTP con async/await (Semanas 1-3)">
+<span class="sr-only">Diagrama de arquitectura en tres capas del cliente EcoMarket: Capa superior de presentación con observadores UI, alertas y log. Capa media de sincronización con ServicioPolling y patrón Observer. Capa base de comunicación HTTP con métodos GET, POST, PUT, DELETE y manejo async/await de errores 2xx, 4xx y 5xx.</span>
+┌────────────────────────────────────────────────────────────────────────┐
+│     MAPA COMPLETO DEL CLIENTE — LO QUE CONSTRUISTE EN SEMANAS 1–4      │
+├────────────────────────────────────────────────────────────────────────┤
+│                                                                        │
+│  ┌────────────────────────────────────────────────────────────────┐    │
+│  │ CAPA DE PRESENTACIÓN / OBSERVADORES (Semana 4)                 │    │
+│  │  → ObservadorUI, ObservadorAlertas, ObservadorLog              │    │
+│  │  → Reaccionan cuando hay cambios; NUNCA tocan HTTP             │    │
+│  └──────────────────────────┬─────────────────────────────────────┘    │
+│                             │ notificar_observadores()                 │
+│  ┌──────────────────────────▼─────────────────────────────────────┐    │
+│  │ CAPA DE SINCRONIZACIÓN — Monitor/Polling (Semana 4)            │    │
+│  │  → ServicioPolling: ciclo while + async sleep                  │    │
+│  │  → Detección de cambios: ETag / If-None-Match / timestamp      │    │
+│  │  → Backoff adaptativo: intervalo crece si no hay cambios       │    │
+│  └──────────────────────────┬─────────────────────────────────────┘    │
+│                             │ await _consultar()                       │
+│  ┌──────────────────────────▼─────────────────────────────────────┐    │
+│  │ CAPA DE COMUNICACIÓN HTTP (Semanas 1–3)                        │    │
+│  │  → GET con headers, POST con body JSON, PUT, DELETE            │    │
+│  │  → timeout por petición (≤ 30s)                                │    │
+│  │  → manejo diferenciado: 2xx OK / 4xx no-retry / 5xx sí-retry   │    │
+│  │  → async/await + gather() para peticiones concurrentes         │    │
+│  │  → validación de respuesta: ¿campos esperados presentes?       │    │
+│  └──────────────────────────┬─────────────────────────────────────┘    │
+│                             │ HTTP sobre TCP/IP                        │
+│  ┌──────────────────────────▼─────────────────────────────────────┐    │
+│  │ API del Servidor EcoMarket (servidor externo, no lo controlas) │    │
+│  └────────────────────────────────────────────────────────────────┘    │
+│                                                                        │
+│  IMPORTANTE: El examen evalúa tu comprensión de las 3 capas cliente.   │
+│  No requiere modificar ni conocer el código del servidor.              │
+└────────────────────────────────────────────────────────────────────────┘
+                </div>
+                <div class="diagrama-descripcion">
+                    <strong>¿Qué representa?</strong> La arquitectura completa de tu cliente distribuido al cierre de la Fase 1. Cada capa tiene una responsabilidad específica. Las flechas representan llamadas de función dentro de <em>tu código</em>, no comunicación externa. La única comunicación externa (HTTP) ocurre solo en la capa de comunicación.
+                </div>
+
+                <h3>Los 4 Bloques del Examen — Repaso Estructurado</h3>
+                <p>El Examen Práctico 1 evalúa estos cuatro bloques, que corresponden a las Semanas 1–4. Revisa cada uno y evalúa con honestidad tu nivel:</p>
+
+                <!-- Bloque 1 -->
+                <div class="tema-repaso">
+                    <div class="tema-header">
+                        🌐 Bloque 1: HTTP y REST — Construcción y Envío de Peticiones <span class="semana-badge">Semanas 1–2</span>
+                    </div>
+                    <div class="tema-body">
+                        <p><strong>Lo que debes poder hacer de memoria:</strong> Construir cualquier petición HTTP (GET, POST, PUT, DELETE) con los headers correctos, query params cuando aplique, y body JSON cuando sea necesario.</p>
+                        <div class="ascii-diagram" role="img" aria-label="Diagrama: Flujo completo de una petición HTTP del cliente al servidor con manejo diferenciado de respuestas 2xx, 4xx y 5xx" style="font-size:0.78rem;"><span class="sr-only">Secuencia de 4 pasos: 1) Cliente construye petición con método, URL, headers y body. 2) Espera asíncrona sin bloqueo (await). 3) Servidor responde. 4) Cliente maneja la respuesta: 2xx procesa datos, 4xx no reintenta (error del cliente), 5xx puede reintentar con backoff.</span>
+┌─────────────────────────────────────────────────────────────┐
+│  FLUJO COMPLETO DE UNA PETICIÓN CLIENTE → RESPUESTA         │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  CLIENTE                                   SERVIDOR         │
+│  ┌─────┐                                   ┌─────┐          │
+│  │  1  │  Construir petición:              │     │          │
+│  │     │  • Método: GET/POST/PUT/DELETE    │     │          │
+│  │     │  • URL: base_url + /endpoint      │     │          │
+│  │     │  • Headers: Content-Type, Auth... │     │          │
+│  │     │  • Body (si POST/PUT): JSON       │     │          │
+│  │     │ ─────────────────────────────────►│     │          │
+│  │  2  │  ESPERAR (await) — no bloquea     │     │          │
+│  │     │  el hilo principal                │     │          │
+│  │     │ ◄──────────── respuesta ──────────│     │          │
+│  │  3  │  VALIDAR respuesta:               │     │          │
+│  │     │  • ¿status_code 2xx? → OK         │     │          │
+│  │     │  • ¿status_code 4xx? → Error del  │     │          │
+│  │     │    cliente, NO reintentar         │     │          │
+│  │     │  • ¿status_code 5xx? → Error del  │     │          │
+│  │     │    servidor, SE PUEDE reintentar  │     │          │
+│  │  4  │  PARSEAR y VALIDAR body:          │     │          │
+│  │     │  • ¿Es JSON válido?               │     │          │
+│  │     │  • ¿Están los campos esperados?   │     │          │
+│  │     │  • ¿Tipos correctos (int/str)?    │     │          │
+│  │  5  │  RETORNAR datos validados         │     │          │
+│  └─────┘  (o lanzar excepción tipada)      └─────┘          │
+└─────────────────────────────────────────────────────────────┘
+                        </div>
+                        <div class="diagrama-descripcion" style="margin-top: -1rem;">
+                            <strong>Pregunta de diagnóstico:</strong> Si el servidor responde con <code>{"producto": null}</code> cuando tu código espera un objeto con campos, ¿qué hace tu cliente? Si la respuesta es "crashea con un KeyError" — necesitas reforzar el paso 4 (validación del body).
+                        </div>
+                        <p><strong>Concepto clave a revisar:</strong> La diferencia entre errores de red (el servidor no respondió → <code>ConnectionError</code>, <code>Timeout</code>) y errores HTTP (el servidor respondió pero con código de error → <code>4xx</code>, <code>5xx</code>). Son excepciones diferentes que se manejan de forma diferente en tu cliente.</p>
+                    </div>
+                </div>
+
+                <!-- Bloque 2 -->
+                <div class="tema-repaso">
+                    <div class="tema-header">
+                        🔄 Bloque 2: Programación Asíncrona — Concurrencia sin Bloqueo <span class="semana-badge">Semana 3</span>
+                    </div>
+                    <div class="tema-body">
+                        <p><strong>Lo que debes poder hacer de memoria:</strong> Convertir una función de cliente en <code>async</code>, usar <code>await</code> correctamente, lanzar múltiples peticiones en paralelo con <code>asyncio.gather()</code>, y manejar timeouts sin perder las peticiones que sí terminaron a tiempo.</p>
+                        <div class="ascii-diagram" role="img" aria-label="Diagrama: Comparación de tiempo de ejecución secuencial (6 segundos) versus concurrente con asyncio.gather (2 segundos) para 3 peticiones HTTP paralelas" style="font-size:0.78rem;"><span class="sr-only">Comparación de dos enfoques. Secuencial sin async correcto: tres peticiones GET en serie toman 6 segundos en total. Concurrente con asyncio.gather: las tres peticiones se lanzan simultáneamente y terminan en 2 segundos.</span>
+┌─────────────────────────────────────────────────────────────┐
+│  SECUENCIAL vs CONCURRENTE — IMPACTO EN EL CLIENTE          │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  SECUENCIAL (sin async/await correcto):                     │
+│   t=0s  │ GET /productos  ────────► espera 2s               │
+│   t=2s  │ GET /categorias ────────► espera 2s               │
+│   t=4s  │ GET /ofertas    ────────► espera 2s               │
+│   t=6s  │ DONE (6 segundos total)                           │
+│                                                             │
+│  CONCURRENTE (con gather() o Promise.all()):                │
+│   t=0s  │ GET /productos  ────────► espera... ┐             │
+│   t=0s  │ GET /categorias ────────► espera... │ en paralelo │
+│   t=0s  │ GET /ofertas    ────────► espera... ┘             │
+│   t=2s  │ DONE (2 segundos total) — 3x más rápido           │
+│                                                             │
+│  AWAIT correcto:    res = await cliente.get(url)            │
+│  AWAIT incorrecto:  res = cliente.get(url)  ← ¡coroutine!   │
+└─────────────────────────────────────────────────────────────┘
+                        </div>
+                        <div class="diagrama-descripcion" style="margin-top: -1rem;">
+                            <strong>Pregunta de diagnóstico:</strong> Si llamas a una función <code>async</code> sin <code>await</code>, ¿qué obtienes? Si la respuesta es "un objeto coroutine que nunca se ejecuta" — dominas el concepto. Si la respuesta es "no sé" — repasa el event loop antes del examen.
+                        </div>
+                        <p><strong>Concepto clave:</strong> El timeout en una corrutina asíncrona (<code>asyncio.wait_for(coro, timeout=10)</code>) cancela <em>esa corrutina específica</em> sin afectar otras que se ejecutan en paralelo. Esto es diferente de un timeout bloqueante que congela todo el programa.</p>
+                    </div>
+                </div>
+
+                <!-- Bloque 3 -->
+                <div class="tema-repaso">
+                    <div class="tema-header">
+                        📡 Bloque 3: Polling Adaptativo — Detección de Cambios <span class="semana-badge">Semana 4</span>
+                    </div>
+                    <div class="tema-body">
+                        <p><strong>Lo que debes poder hacer de memoria:</strong> Implementar un ciclo de polling con intervalo adaptativo, usar ETag/<code>If-None-Match</code> para detectar cambios sin reprocesar datos idénticos, y detener limpiamente el ciclo cuando el usuario lo solicita.</p>
+                        <div class="ascii-diagram" role="img" aria-label="Diagrama: Pseudocódigo de polling adaptativo con ETag, backoff exponencial, manejo diferenciado de errores 304, 503 y 4xx, y cierre suave con bandera ejecutando" style="font-size:0.78rem;"><span class="sr-only">Pseudocódigo del ciclo de polling: constantes INTERVALO_BASE de 5 segundos e INTERVALO_MAX de 60 segundos. Ciclo while ejecutando: hace petición GET con If-None-Match. Si respuesta 200 notifica observadores y resetea intervalo. Si 304 incrementa intervalo (backoff). Si 503 incrementa intervalo. Si 4xx registra error sin reintentar. Si excepción de red registra warning y continúa. Al final espera asyncio.sleep con el intervalo calculado.</span>
+┌──────────────────────────────────────────────────────────────┐
+│   PSEUDOCÓDIGO DE REFERENCIA — POLLING ADAPTATIVO            │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  INTERVALO_BASE = 5s   // Espera mínima entre consultas      │
+│  INTERVALO_MAX = 60s   // Espera máxima (evita consultas     │
+│                        // innecesarias cuando no hay cambios │
+│  ejecutando = True     // Bandera de control del ciclo       │
+│  ultimo_etag = None    // Último ETag conocido del servidor  │
+│                                                              │
+│  async función ciclo_polling():                              │
+│    intervalo = INTERVALO_BASE                                │
+│    mientras ejecutando:                                      │
+│      intentar:                                               │
+│        headers = {}                                          │
+│        si ultimo_etag:                                       │
+│          headers["If-None-Match"] = ultimo_etag  // ← clave  │
+│        resp = await GET /inventario headers=headers          │
+│                                                              │
+│        si resp.status == 304:  // No cambió                  │
+│          intervalo = min(intervalo * 1.5, INTERVALO_MAX)     │
+│          // → esperar más tiempo si no hay novedades         │
+│        si resp.status == 200:  // Cambió                     │
+│          ultimo_etag = resp.headers["ETag"]                  │
+│          datos = resp.json()                                 │
+│          notificar_observadores(datos)  // patrón Observer   │
+│          intervalo = INTERVALO_BASE    // resetear espera    │
+│        si resp.status >= 500:  // Error servidor             │
+│          intervalo = min(intervalo * 2, INTERVALO_MAX)       │
+│          // → backoff más agresivo ante errores              │
+│      capturar Timeout:                                       │
+│        registro.warning("Timeout en polling")                │
+│        intervalo = min(intervalo * 2, INTERVALO_MAX)         │
+│      await sleep(intervalo)  // esperar SIN bloquear         │
+│                                                              │
+│  función detener():                                          │
+│    ejecutando = False  // el ciclo termina en la próxima     │
+│                        // iteración — "cierre suave"         │
+└──────────────────────────────────────────────────────────────┘
+                        </div>
+                        <div class="diagrama-descripcion" style="margin-top: -1rem;">
+                            <strong>Pregunta de diagnóstico:</strong> ¿Por qué el intervalo se <em>resetea</em> a <code>INTERVALO_BASE</code> cuando llega un 200 con cambios? Porque si hay cambios frecuentes, queremos consultar más seguido — el backoff existe para <em>reducir</em> consultas innecesarias, no para castigar la actividad real del servidor.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bloque 4 -->
+                <div class="tema-repaso">
+                    <div class="tema-header">
+                        👁️ Bloque 4: Patrón Observer — Desacoplamiento de la Fuente de Datos <span class="semana-badge">Semana 4</span>
+                    </div>
+                    <div class="tema-body">
+                        <p><strong>Lo que debes poder hacer de memoria:</strong> Distinguir el rol del Observable (mantiene lista de observadores, notifica) del rol del Observador (recibe datos y reacciona), e implementar el desacoplamiento correcto: el Observable no conoce qué hacen los observadores con los datos.</p>
+                        <div class="ascii-diagram" role="img" aria-label="Diagrama: Patrón Observer en el cliente con Observable ServicioPolling que mantiene lista de observadores y notifica via método actualizar, y observadores concretos ObservadorUI y ObservadorAlertas que reaccionan sin conocer HTTP" style="font-size:0.78rem;"><span class="sr-only">Estructura del patrón Observer. Observable ServicioPolling tiene lista privada de observadores, métodos suscribir y desuscribir, y método privado notificar que llama actualizar en cada observador. Observadores concretos: ObservadorUI formatea y muestra datos en consola, ObservadorAlertas filtra pedidos con estado RETRASADO. Ningún observador conoce detalles HTTP.</span>
+┌──────────────────────────────────────────────────────────────┐
+│   PATRÓN OBSERVER — RELACIONES ENTRE OBJETOS EN EL CLIENTE   │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  OBSERVABLE (ServicioPolling extiende Observable):           │
+│    _observadores = []  // lista privada                      │
+│    suscribir(obs)  → _observadores.append(obs)               │
+│    desuscribir(obs)→ _observadores.remove(obs)               │
+│    _notificar(datos):                                        │
+│      para cada obs en _observadores:                         │
+│        obs.actualizar(datos)   ← no sabe QUÉ hace obs        │
+│                                                              │
+│  OBSERVADOR (implementa interfaz Observador):                │
+│    actualizar(datos): [implementación específica]            │
+│                                                              │
+│  ServicioPolling ─suscribir()─► ObservadorUI                 │
+│                  ─suscribir()─► ObservadorAlertas            │
+│                  ─suscribir()─► ObservadorLog                │
+│                                                              │
+│  ¿Qué pasa si agrego un 4to observador?                      │
+│   → Solo llamo suscribir(obs_nuevo)                          │
+│   → ServicioPolling NO cambia ni una línea ← esto es         │
+│     el desacoplamiento: agregar comportamiento sin           │
+│     modificar la fuente de datos                             │
+└──────────────────────────────────────────────────────────────┘
+                        </div>
+                        <div class="diagrama-descripcion" style="margin-top: -1rem;">
+                            <strong>Pregunta de diagnóstico:</strong> ¿Qué pasaría si <code>ServicioPolling</code> llamara directamente a <code>self.ui.actualizar(datos)</code> en lugar de usar <code>_notificar(datos)</code>? El sistema funcionaría igual — pero habrías acoplado fuertemente el polling a una implementación específica de UI. Si mañana cambias la UI, tienes que modificar <code>ServicioPolling</code>. El Observer evita exactamente ese problema.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reto 1 -->
+                <div class="reto-ia">
+                    <div class="reto-ia-header">
+                        <span class="reto-numero">1</span>
+                        <h4>Diagnóstico Pre-Examen: ¿Qué tan sólidos están mis fundamentos? <span class="reto-badge esencial">Esencial</span></h4>
+                    </div>
+                    <div class="reto-ia-body">
+                        <div class="rol-ia"><strong>🤖 Rol de la IA:</strong> Mentor Técnico Senior que diagnostica lagunas conceptuales antes de una evaluación, haciendo preguntas una por una y esperando la respuesta del estudiante.</div>
+                        <div class="prompt-box">Explica de forma simple, usando analogías cotidianas (como revisar el mapa antes de un viaje importante, o repasar las reglas de tránsito antes del examen de manejo) antes de entrar en detalles técnicos. Usa lenguaje de estudiante de segundo-tercer semestre.
+
+Actúa como un Mentor Técnico que me va a hacer un diagnóstico honesto antes de mi examen práctico de programación cliente-servidor.
+
+Voy a presentar el Examen Práctico 1 sobre consumo de APIs REST, programación asíncrona y polling con Observer. El examen evalúa si puedo implementar un cliente completo en un escenario nuevo (diferente al que practiqué).
+
+Hazme exactamente 6 preguntas diagnósticas, UNA A LA VEZ, esperando mi respuesta antes de continuar:
+
+PREGUNTA 1: Sobre HTTP — pídeme que explique con mis propias palabras qué diferencia hay entre manejar un error de red (el servidor no respondió) y manejar un error HTTP 4xx (el servidor respondió pero rechazó mi petición). ¿Qué debe hacer mi cliente en cada caso?
+
+PREGUNTA 2: Sobre validación de respuesta — pídeme que describa qué pasos realiza mi cliente DESPUÉS de recibir un 200 OK antes de usar los datos. ¿Qué puede salir mal?
+
+PREGUNTA 3: Sobre async/await — pídeme que explique qué pasa si llamo a una función async sin await en Python (o JavaScript). ¿Cómo lo detecto? ¿Cómo lo corrijo?
+
+PREGUNTA 4: Sobre timeout — pídeme que justifique por qué configuro un timeout de X segundos en mis peticiones. ¿Qué pasa en el cliente si no hay timeout? ¿Qué pasa si el timeout es demasiado corto?
+
+PREGUNTA 5: Sobre polling — pídeme que explique el propósito del campo ETag y cómo lo usa mi cliente. ¿Qué responde el servidor si el recurso NO cambió? ¿Qué hace mi cliente con esa respuesta?
+
+PREGUNTA 6: Sobre Observer — pídeme que explique la diferencia entre "el polling notifica a sus observadores" y "el polling llama directamente a la UI". ¿Por qué importa esa diferencia en la práctica?
+
+Para cada respuesta mía:
+- Dime qué está bien
+- Señala el concepto más importante que me falta o que expresé incorrectamente
+- Una corrección específica (no el tema completo — solo el gap)
+
+Al final de las 6 preguntas, dame un diagnóstico de cuál de los 4 bloques (HTTP, async, polling, Observer) está más débil según mis respuestas, y sugiere 1 pseudocódigo concreto que debo repasar antes del examen.</div>
+                        <div class="entregable-box">
+                            <p><strong>Lo que obtienes:</strong> Un diagnóstico honesto de tus lagunas antes del examen. Toma nota del bloque más débil que identifique la IA y dedica 20-30 minutos adicionales a ese bloque usando los pseudocódigos de COMPRENDE. No hay entregable formal para este reto — es preparación.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="invariantes-box">
+                    <h4>🔒 Invariantes que no deben romperse — Semana 5 (repaso)</h4>
+                    <ul style="margin-left: 1.5rem;">
+                        <li style="margin-bottom:0.6rem;">El cliente nunca debe crashear silenciosamente ante un error HTTP 5xx — siempre registra, siempre retorna un estado conocido.</li>
+                        <li style="margin-bottom:0.6rem;">Ninguna petición HTTP se envía sin un timeout definido — una petición sin timeout puede congelar el cliente indefinidamente.</li>
+                        <li style="margin-bottom:0.6rem;">Un error 4xx nunca se reintenta automáticamente — el cliente está enviando algo incorrecto; reintentarlo no lo arregla.</li>
+                        <li style="margin-bottom:0.6rem;">El Observable nunca debe hacer referencia directa a una implementación específica de observador — solo llama al método <code>actualizar()</code> de la interfaz.</li>
+                        <li>El ciclo de polling siempre debe tener una bandera de control (<code>ejecutando</code>) que permita detenerlo limpiamente sin cancelación forzada.</li>
+                    </ul>
+                </div>
+
+                <div class="checkpoint">
+                    <h4>🪞 Checkpoint Metacognitivo — Fase COMPRENDE</h4>
+                    <div class="pregunta">¿Puedo dibujar el mapa de las 3 capas del cliente (presentación / sincronización / comunicación) sin mirar el diagrama?</div>
+                    <div class="pregunta">¿Puedo explicar oralmente la diferencia entre un error de red y un error HTTP, y qué hace mi cliente en cada caso?</div>
+                    <div class="pregunta">Si me dieran un endpoint nuevo (<code>GET /alertas</code>) mañana en el examen, ¿sé qué preguntas hacerme antes de codificar? (¿Qué devuelve? ¿Qué errores puede tener? ¿Necesita timeout?)</div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- FASE 2: APLICA                                             -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <section id="aplica" class="fase-section">
+            <div class="fase-header aplica">
+                <div class="fase-icon">⚡</div>
+                <div class="fase-info">
+                    <h2>FASE 2: APLICA — Simulacro del Examen Práctico</h2>
+                    <span class="bloom-tag">Nivel Bloom: Aplicar → Analizar</span>
+                </div>
+            </div>
+            <div class="fase-content">
+
+                <div class="objetivos-box">
+                    <h4>🎯 Objetivos de Aprendizaje</h4>
+                    <ul>
+                        <li><strong>Aplicar</strong> los patrones de las Semanas 1–4 a un escenario nuevo dentro de EcoMarket, diferente al Monitor de Inventario</li>
+                        <li><strong>Transferir</strong> el conocimiento construido (HTTP, async, polling, Observer) a un contexto de pedidos y envíos</li>
+                        <li><strong>Analizar</strong> la diferencia entre lo que implementaste en semanas anteriores y lo que requiere el nuevo escenario</li>
+                        <li><strong>Identificar</strong> lagunas en tu implementación antes del examen real</li>
+                    </ul>
+                </div>
+
+                <div class="context-box info">
+                    <div class="box-title">💡 Nota sobre opciones de lenguaje/plataforma</div>
+                    <p>El simulacro puede hacerse en el mismo lenguaje que usaste en las semanas anteriores. Si quieres practicar transferibilidad, intenta en un lenguaje diferente — esto simula mejor el examen real, que puede darte un entorno diferente. El patrón de pensamiento (<em>preparar → enviar → validar → manejar error</em>) es idéntico en Python, JavaScript, Kotlin o cualquier otro lenguaje.</p>
+                    <ul style="margin-top:0.5rem; margin-left:1.5rem;">
+                        <li><strong>Python + aiohttp:</strong> Más explícito sobre async, ideal para ver el patrón limpio</li>
+                        <li><strong>JavaScript/TypeScript + fetch:</strong> Async nativo en el event loop, ideal para entender la integración en el browser</li>
+                        <li><strong>Kotlin + Ktor o Retrofit:</strong> Corrutinas, ideal para mobile/Android</li>
+                    </ul>
+                </div>
+
+                <h3>Código Base de Referencia — Esqueleto para el Simulacro</h3>
+                <div class="context-box tip">
+                    <div class="box-title">🏗️ Punto de partida para el simulacro</div>
+                    <p>Si tu cliente de las semanas anteriores funciona correctamente, extiéndelo. Si tuviste problemas con alguna parte, aquí tienes el esqueleto mínimo para el nuevo componente. No es "hacer trampa": es tener una base sólida para enfocarte en practicar el patrón, no en depurar infraestructura.</p>
+                </div>
+                <div class="ascii-diagram" role="img" aria-label="Diagrama: Esqueleto de clase MonitorPedidos con tres métodos vacíos marcados con TODO: _consultar_pedidos async, iniciar async con ciclo de polling y backoff, y detener con cierre suave" style="font-size:0.82rem;"><span class="sr-only">Pseudocódigo del esqueleto del simulacro. Clase MonitorPedidos extiende Observable. Método _consultar_pedidos async: TODO manejar Timeout sin crashear. Método iniciar async: TODO poner ejecutando en True, ciclo while ejecutando con await sleep, llamar _consultar_pedidos, si hay cambios notificar, lógica de backoff. Método detener: TODO ejecutando = False para cierre suave. Clases ObservadorPedidosUI y ObservadorPedidosCriticos con método actualizar.</span>
+┌──────────────────────────────────────────────────────────────────────────┐
+│  ESQUELETO MÍNIMO — MONITOR DE PEDIDOS (para el simulacro)               │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│  # Interfaz Observador (proporcionada, no reimplementar)                 │
+│  clase Observador:                                                       │
+│      método actualizar(datos): abstracto                                 │
+│                                                                          │
+│  # Observable (proporcionado, no reimplementar)                          │
+│  clase Observable:                                                       │
+│      método suscribir(observador)                                        │
+│      método desuscribir(observador)                                      │
+│      método _notificar(datos) → llama a actualizar() de cada obs         │
+│                                                                          │
+│  # ← ESTO ES LO QUE IMPLEMENTAS EN EL SIMULACRO                          │
+│  clase MonitorPedidos(extiende Observable):                              │
+│      constructor(base_url, sesion_http):                                 │
+│          # TODO: guardar url y sesión                                    │
+│          # TODO: inicializar bandera ejecutando = False                  │
+│          # TODO: inicializar intervalo_actual = INTERVALO_BASE           │
+│          # TODO: inicializar ultimo_estado = None (para detectar cambios │
+│                                                                          │
+│      método async _consultar_pedidos():                                  │
+│          # TODO: GET a /pedidos con timeout y manejo de errores          │
+│          # TODO: devolver lista de pedidos o None si falla               │
+│          # TODO: manejar 4xx vs 5xx de forma diferenciada                │
+│          # TODO: manejar Timeout (no crashear, registrar warning)        │
+│          pasar                                                           │
+│                                                                          │
+│      método async iniciar():                                             │
+│          # TODO: poner ejecutando = True                                 │
+│          # TODO: ciclo while ejecutando con await sleep(intervalo)       │
+│          # TODO: llamar _consultar_pedidos()                             │
+│          # TODO: si hay cambios respecto al ultimo_estado → _notificar   │
+│          # TODO: lógica de backoff (intervalo crece si no hay cambios)   │
+│          pasar                                                           │
+│                                                                          │
+│      método detener():                                                   │
+│          # TODO: ejecutando = False (cierre suave)                       │
+│          pasar                                                           │
+│                                                                          │
+│  # Observadores — implementa al menos 2:                                 │
+│  clase ObservadorPedidosUI(extiende Observador):                         │
+│      método actualizar(pedidos):                                         │
+│          # TODO: mostrar en consola los pedidos con formato legible      │
+│          pasar                                                           │
+│                                                                          │
+│  clase ObservadorPedidosCriticos(extiende Observador):                   │
+│      método actualizar(pedidos):                                         │
+│          # TODO: filtrar pedidos con status "RETRASADO" y mostrar alerta │
+│          pasar                                                           │
+└──────────────────────────────────────────────────────────────────────────┘
+                </div>
+                <div class="diagrama-descripcion">
+                    <strong>¿Qué simplifica?</strong> El esqueleto proporciona la estructura de clases, dejando los métodos vacíos con TODOs. En el simulacro, tu tarea es completar esos métodos. En el examen real, el escenario será diferente pero la estructura de TODOs será similar.
+                </div>
+
+                <!-- Reto 2 -->
+                <div class="reto-ia">
+                    <div class="reto-ia-header">
+                        <span class="reto-numero">2</span>
+                        <h4>Simulacro: Monitor de Pedidos para EcoMarket <span class="reto-badge esencial">Esencial</span> &nbsp;<span style="font-size:0.8rem; font-weight:normal; opacity:0.9;">⏱ Objetivo: completar en ≤ 90 min</span></h4>
+                    </div>
+                    <div class="reto-ia-body">
+                        <div class="rol-ia"><strong>🤖 Rol de la IA:</strong> Evaluador Técnico Senior que simula las condiciones del examen: guía sin dar el código completo, hace preguntas antes de revelar el siguiente paso, y señala errores sin corregirlos directamente.</div>
+                        <div class="prompt-box">Explica de forma simple, usando analogías cotidianas (como hacer un simulacro de manejo antes del examen — con el mismo tipo de situaciones, mismas reglas, pero diferente ruta) antes de entrar en detalles técnicos. Usa lenguaje de estudiante de segundo-tercer semestre.
+
+Actúa como Evaluador Técnico que me hace un SIMULACRO del Examen Práctico 1. Estoy preparando el examen de consumo de APIs de mi curso.
+
+ESCENARIO DEL SIMULACRO:
+EcoMarket necesita un Monitor de Pedidos que consulte periódicamente el endpoint GET /pedidos de su API y notifique a los componentes interesados cuando haya cambios. La respuesta del servidor tiene esta estructura:
+
+{
+  "pedidos": [
+    {"id": "P001", "cliente": "Ana", "total": 450.00, "status": "PENDIENTE"},
+    {"id": "P002", "cliente": "Carlos", "total": 120.50, "status": "RETRASADO"}
+  ],
+  "total_registros": 2,
+  "ultima_actualizacion": "2025-03-12T10:30:00Z",
+  "next_page_token": null
+}
+
+NOTA SOBRE next_page_token: En la industria, los endpoints de listas siempre están paginados. Por ahora es null — tu cliente NO necesita implementar paginación en este simulacro. Pero un cliente robusto debe ignorar graciosamente los campos que no reconoce, sin fallar ni lanzar excepciones por campos "inesperados". ¿Tu código lo haría?
+
+El servidor puede responder: 200 (datos normales), 304 (sin cambios, si envío ETag), 
+503 (temporalmente no disponible), 408 (timeout), o 400 (parámetros incorrectos).
+
+Mi implementación: [MI LENGUAJE/PLATAFORMA ELEGIDO]
+
+Usando el esqueleto de MonitorPedidos del material, quiero completar los siguientes métodos:
+  1. _consultar_pedidos() — GET con manejo de errores diferenciado
+  2. iniciar() — ciclo de polling con backoff y detección de cambios
+  3. ObservadorPedidosCriticos.actualizar() — filtra pedidos RETRASADOS
+
+Para CADA método:
+- Primero pregúntame: ¿Qué casos de error puede tener este método?
+  Espera mi respuesta antes de continuar.
+- Luego deja que yo escriba el código.
+- Revisa lo que escribí y señala MÁXIMO 2 cosas que me falten — no me des
+  el código correcto, dime QUÉ está faltando o incorrecto.
+- Una pregunta de verificación antes del siguiente método.
+
+(Nota: el patrón Observable ya está implementado en el esqueleto del material;
+ enfócate en ayudarme con MonitorPedidos, no en reimplementar Observable)
+
+Al terminar los 3 métodos, simula una "pregunta oral" del examen:
+pregúntame por qué tomé una decisión específica de diseño que hayas visto en mi código.
+
+NO me des el código completo. Soy el arquitecto — tú eres el evaluador que me guía.</div>
+                        <div class="entregable-box">
+                            <p><strong>Entregable del simulacro:</strong> Archivo <code>monitor_pedidos.py</code> (o el lenguaje elegido) con los 3 métodos implementados. Guárdalo en tu carpeta de trabajo — no se entrega, pero lo usarás como referencia de confianza antes del examen real. Tiempo objetivo: completar en menos de 90 minutos (el examen real es de duración similar).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="errores-comunes">
+                    <h4>⚠️ Errores Comunes en el Simulacro (y en el Examen)</h4>
+                    <div class="error-item">
+                        <strong>Error 1: Manejar todos los errores igual</strong>
+                        <p>Hacer un solo <code>except Exception</code> que imprime "Error" para cualquier falla — sin diferenciar TimeoutError, ConnectionError, y errores HTTP. En el examen, esto se evalúa: cada tipo de error necesita una respuesta diferente en el cliente.</p>
+                    </div>
+                    <div class="error-item">
+                        <strong>Error 2: Olvidar el 304 — comparar siempre contra el último estado</strong>
+                        <p>Detectar cambios comparando el body completo (<code>if datos != ultimo_datos</code>) en lugar de usar ETag. Funciona, pero descarta la optimización central de la Semana 4: el servidor ya sabe si cambió — pregúntale con <code>If-None-Match</code> en lugar de procesar el body tú mismo.</p>
+                    </div>
+                    <div class="error-item">
+                        <strong>Error 3: Polling sin backoff — intervalo fijo aunque no haya cambios</strong>
+                        <p>Usar <code>await sleep(INTERVALO_BASE)</code> siempre, sin aumentar el intervalo cuando hay respuestas 304 consecutivas. El backoff adaptativo reduce las conexiones abiertas en el cliente y el tráfico de red cuando el inventario está estático.</p>
+                    </div>
+                    <div class="error-item">
+                        <strong>Error 4: Observer que sabe demasiado — acoplamiento implícito</strong>
+                        <p>Hacer que <code>_notificar()</code> pase diferentes tipos de datos a diferentes observadores según su tipo (<code>if isinstance(obs, ObservadorUI): notificar_con_formato()</code>). El Observable debe tratar a todos los observadores de forma idéntica — la interfaz <code>actualizar(datos)</code> es el único contrato.</p>
+                    </div>
+                </div>
+
+                <div class="invariantes-box">
+                    <h4>🔒 Invariantes del Simulacro — Verifica en tu implementación</h4>
+                    <ul style="margin-left: 1.5rem;">
+                        <li style="margin-bottom:0.6rem;"><code>_consultar_pedidos()</code> nunca lanza una excepción no capturada — el ciclo de polling no debe detenerse por un fallo puntual de red.</li>
+                        <li style="margin-bottom:0.6rem;">Un 503 del servidor incrementa el intervalo (backoff); un 400 del servidor registra un error pero NO reintenta — algo en la petición está mal.</li>
+                        <li style="margin-bottom:0.6rem;"><code>iniciar()</code> es <code>async</code> y usa <code>await asyncio.sleep()</code> (no <code>time.sleep()</code> bloqueante) para no congelar el event loop.</li>
+                        <li><code>detener()</code> solo cambia una bandera — no cancela la corrutina de forma forzada ni genera <code>CancelledError</code> en el ciclo.</li>
+                    </ul>
+                </div>
+
+                <div class="plan-b-box">
+                    <h4>🚨 ¿El simulacro tomó más de 120 minutos o fallaste más de un método?</h4>
+                    <p>No entres en pánico ni abandones — esto es exactamente para lo que sirve el simulacro: descubrir las grietas antes del examen real.</p>
+                    <p style="margin-top:0.8rem;"><strong>Plan de acción concreto:</strong></p>
+                    <ul style="margin-left:1.5rem; margin-top:0.5rem;">
+                        <li style="margin-bottom:0.5rem;"><strong>Si fallaste <code>_consultar_pedidos()</code>:</strong> El problema central es el manejo de errores HTTP. Regresa al Bloque 1 de COMPRENDE y copia a mano (no pegues) el pseudocódigo del flujo completo. Practica 3 veces con endpoints diferentes.</li>
+                        <li style="margin-bottom:0.5rem;"><strong>Si fallaste <code>iniciar()</code>:</strong> El problema es async/await o el ciclo de control. Regresa al Bloque 2 y Bloque 3. El error más común: usar <code>time.sleep()</code> bloqueante.</li>
+                        <li style="margin-bottom:0.5rem;"><strong>Si fallaste el Observer:</strong> Regresa al Bloque 4 y dibuja a mano las relaciones entre clases. El Observer es patrón visual — dibujarlo ayuda más que leerlo.</li>
+                        <li><strong>Si tardaste más de 120 min:</strong> El problema es fluidez, no comprensión. Practica un ejercicio cronometrado de 30 minutos: construir solo <code>_consultar_pedidos()</code> desde cero. La velocidad viene con la repetición.</li>
+                    </ul>
+                    <p style="margin-top:0.8rem; font-style:italic; font-size:0.9rem;">💡 Aún hay tiempo. El examen evalúa comprensión de patrones, no perfección sintáctica. Un cliente que falla de forma controlada (registra el error, continúa el ciclo) obtiene mejor calificación que un cliente que funciona el 80% del tiempo pero crashea silenciosamente el otro 20%.</p>
+                </div>
+
+                <div class="checkpoint">
+                    <h4>🪞 Checkpoint Metacognitivo — Fase APLICA</h4>
+                    <div class="pregunta">¿Completé los 3 métodos del simulacro en menos de 90 minutos? Si tardé más, ¿cuál fue el cuello de botella?</div>
+                    <div class="pregunta">¿La IA señaló errores que no había notado? ¿Puedo explicar por qué ese error importa desde la perspectiva del cliente?</div>
+                    <div class="pregunta">¿El código del simulacro puede manejar un servidor que responde con <code>{"error": "database down"}</code> en lugar del JSON de pedidos esperado? ¿Qué hace mi cliente?</div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- FASE 3: REFLEXIONA                                         -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <section id="reflexiona" class="fase-section">
+            <div class="fase-header reflexiona">
+                <div class="fase-icon">🔍</div>
+                <div class="fase-info">
+                    <h2>FASE 3: REFLEXIONA — Análisis del Hito 1 y Decisiones de Diseño</h2>
+                    <span class="bloom-tag">Nivel Bloom: Analizar → Evaluar</span>
+                </div>
+            </div>
+            <div class="fase-content">
+
+                <div class="objetivos-box">
+                    <h4>🎯 Objetivos de Aprendizaje</h4>
+                    <ul>
+                        <li><strong>Analizar</strong> las decisiones de diseño que tomaste en el Hito 1 y articularlas con trade-offs explícitos</li>
+                        <li><strong>Evaluar</strong> si las constantes de tu cliente (timeout, intervalo de polling, reintentos) están justificadas o fueron valores arbitrarios</li>
+                        <li><strong>Identificar</strong> al menos una decisión de diseño que cambiarías ahora que completaste las Semanas 1–4 completas</li>
+                        <li><strong>Consolidar</strong> el aprendizaje de las 4 semanas en un docstring de decisiones que acompañe tu código</li>
+                    </ul>
+                </div>
+
+                <h3>La Reflexión como Práctica Profesional</h3>
+                <p>En la industria, los desarrolladores no solo escriben código — explican por qué tomaron cada decisión. Un <em>Architecture Decision Record</em> (ADR), una revisión de código, o un comentario en un commit son formas de externalizar ese razonamiento. Esta fase te pide hacer lo mismo con tu cliente del Hito 1.</p>
+                <p>La pregunta central no es "¿funciona?" — es "<strong>¿por qué elegiste esta forma de hacerlo?</strong>" y "<strong>¿qué trade-off aceptaste?</strong>"</p>
+
+                <div class="context-box tip">
+                    <div class="box-title">🗣️ Discusión Socrática en lugar de documento de análisis</div>
+                    <p>En lugar de escribir un ensayo de 2 páginas sobre tus decisiones (que nadie lee), vas a tener una <strong>discusión socrática con la IA de 10–15 minutos</strong>. La IA te hace preguntas sobre tu Hito 1, una por una. Al final, le pides un resumen de 5 puntos, lo revisas críticamente, y lo incorporas como docstring en tu código. El resultado vive donde pertenece: pegado a las decisiones que explica.</p>
+                </div>
+
+                <!-- Reto 3 -->
+                <div class="reto-ia">
+                    <div class="reto-ia-header">
+                        <span class="reto-numero">3</span>
+                        <h4>Discusión Socrática: ¿Por qué tomé estas decisiones en mi cliente? <span class="reto-badge esencial">Esencial</span></h4>
+                    </div>
+                    <div class="reto-ia-body">
+                        <div class="rol-ia"><strong>🤖 Rol de la IA:</strong> Arquitecto Senior de TechNova que hace una revisión técnica del código cliente del Hito 1, preguntando por las decisiones de diseño una por una — sin juzgar, solo cuestionando para profundizar la comprensión.</div>
+                        <div class="prompt-box">Actúa como el Arquitecto Senior de TechNova que va a revisar las decisiones de diseño de mi cliente del Hito 1. No necesitas ver mi código — hazme preguntas sobre las decisiones que tomé.
+
+REGLAS DE LA CONVERSACIÓN:
+1. Una pregunta a la vez. Espera mi respuesta completa antes de la siguiente.
+2. No evalúes si la respuesta es "correcta" — profundiza con una contra-pregunta si mi respuesta es vaga.
+3. Si doy un valor concreto (ej: timeout=10), pregunta "¿por qué ese valor y no 5 o 30?"
+4. Después de 5 preguntas, para la conversación y dame un resumen.
+
+PREGUNTAS QUE DEBES HACERME (en orden, una por una):
+
+1. "¿Qué timeout configuraste para las peticiones HTTP de tu cliente y por qué elegiste ese valor? ¿Qué pasa en tu cliente si el timeout es demasiado corto? ¿Y si es demasiado largo?"
+
+2. "Cuando tu cliente recibe un error 5xx, ¿qué hace? ¿Reintenta inmediatamente o espera? ¿Cuántas veces reintenta y por qué ese número?"
+
+3. "En tu Monitor de Inventario (polling), ¿elegiste short polling o long polling? ¿Por qué esa elección y no la otra? ¿Qué le haría tu decisión a la batería de un dispositivo móvil que ejecute tu cliente?"
+
+4. "¿Cuántos observadores implementaste en el Observer? Si mañana necesitas agregar un cuarto observador que envíe notificaciones por email, ¿qué líneas de tu código tendrías que modificar?"
+
+5. "Si mirases tu código hoy, después de 4 semanas del curso, ¿qué es lo primero que cambiarías o mejorarías? ¿Por qué eso específicamente?"
+
+AL FINAL:
+Dame un resumen de exactamente 5 puntos numerados sobre las decisiones de diseño que discutimos, en este formato:
+  1. [CONSTANTE/DECISIÓN]: [valor o elección] → Trade-off: [qué se gana vs qué se sacrifica desde la perspectiva del CLIENTE]. Decisión: [por qué es adecuado para EcoMarket].
+  [...]
+  
+Sé específico con los valores que yo mencioné. Si mi justificación fue vaga, dilo en el resumen.</div>
+                        <div class="entregable-box">
+                            <p><strong>Entregable:</strong> Lee el resumen de la IA con ojo crítico. ¿Algo está incorrecto o incompleto? Corrígelo. Luego incorpóralo como docstring en el encabezado de tu archivo de código principal del Hito 1, usando este formato:</p>
+                            <pre style="background:#0d1117;color:#c9d1d9;padding:1rem;border-radius:6px;font-size:0.82rem;margin-top:0.5rem;overflow-x:auto;">"""
+DECISIONES DE DISEÑO — Cliente EcoMarket / Hito 1
+==================================================
+TIMEOUT_HTTP = [valor]s
+  → Trade-off: [impacto en el comportamiento del CLIENTE].
+    Decisión: [por qué este valor].
+
+INTERVALO_POLLING_BASE = [valor]s
+  → Trade-off: [latencia de datos vs conexiones abiertas en el cliente].
+    Decisión: [por qué].
+
+REINTENTOS_MAX = [valor]
+  → Trade-off: [resiliencia vs tiempo de respuesta al usuario].
+    Decisión: [por qué].
+
+[Corrección al resumen de la IA, si aplica:]
+  La IA dijo que [X] — esto es incorrecto/incompleto porque [razón
+  desde la perspectiva del cliente].
+  # Si el resumen fue correcto: "Resumen de la IA validado sin correcciones."
+"""</pre>
+                            <p style="margin-top:0.8rem;">Este docstring va en el <code>.py</code> (o archivo equivalente), no en el README. Así queda pegado a las decisiones que explica, donde un revisor de código lo buscaría.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Tabla de Trade-offs: Decisiones del Cliente a lo Largo de las Semanas 1–4</h3>
+                <p>Esta tabla resume los trade-offs clave del cliente que construiste. Úsala para verificar que tus decisiones tienen justificación técnica:</p>
+
+                <table class="tabla-comparativa">
+                    <thead>
+                        <tr>
+                            <th>Decisión de diseño</th>
+                            <th>Si el valor es demasiado bajo / corto</th>
+                            <th>Si el valor es demasiado alto / largo</th>
+                            <th>Rango típico en producción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Timeout HTTP</strong></td>
+                            <td>El cliente falla peticiones legítimas que solo son lentas. UX mala por errores frecuentes.</td>
+                            <td>El cliente queda bloqueado esperando un servidor caído. Recursos del cliente (hilos, conexiones) retenidos innecesariamente.</td>
+                            <td>5–30 segundos según tipo de operación. Lectura: 10s. Operaciones pesadas: 30s.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Intervalo base de polling</strong></td>
+                            <td>Muchas peticiones innecesarias. El cliente mantiene muchas conexiones abiertas. Alta CPU en background tasks.</td>
+                            <td>El usuario ve datos obsoletos por mucho tiempo. Latencia alta entre el evento real y la notificación al cliente.</td>
+                            <td>5–15 segundos para datos de negocio semi-tiempo-real. 1s para datos críticos (cotizaciones).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Intervalo máximo de backoff</strong></td>
+                            <td>No reduce suficientemente las peticiones vacías. El cliente desperdicia recursos cuando no hay actividad.</td>
+                            <td>Si el servidor se recupera después de un error prolongado, el cliente tarda mucho en enterarse (datos muy obsoletos).</td>
+                            <td>60–300 segundos. Usualmente 10x el intervalo base.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Máximo de reintentos (5xx)</strong></td>
+                            <td>Un solo fallo transitorio del servidor hace que el cliente falle la operación. Poca resiliencia.</td>
+                            <td>El cliente permanece bloqueado esperando respuestas que no llegan: tiempo de ejecución consumido en esperas, callbacks pendientes reteniendo memoria, UI sin feedback de progreso. Al final agota reintentos y el usuario ve un error tardío.</td>
+                            <td>2–5 reintentos con backoff exponencial. Con jitter para evitar thundering herd.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Número de observadores</strong></td>
+                            <td>Si solo hay 1 observador, el Observer es overhead innecesario — una llamada directa sería más simple.</td>
+                            <td>Muchos observadores con lógica pesada en <code>actualizar()</code> pueden hacer lento al ciclo de notificación. Considerar notificación asíncrona.</td>
+                            <td>2–5 observadores. Con más de 10, considerar un bus de eventos.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="text-muted" style="font-size:0.88rem; margin-top: -0.5rem;">⚠️ Nota: Las columnas describen impacto en el comportamiento y recursos del CLIENTE (CPU, conexiones abiertas, latencia percibida por el usuario), no métricas del servidor.</p>
+
+                <div class="checkpoint">
+                    <h4>🪞 Checkpoint Metacognitivo — Fase REFLEXIONA</h4>
+                    <div class="pregunta">¿El docstring que escribí explica el trade-off desde la perspectiva del cliente o solo justifica el valor desde el punto de vista del servidor?</div>
+                    <div class="pregunta">¿Encontré algo incorrecto en el resumen de la IA? Si lo corregí, ¿puedo explicar por qué la IA estaba equivocada?</div>
+                    <div class="pregunta">¿Puedo defender oralmente cada valor de mi cliente (timeout, intervalo) ante una pregunta de "¿por qué ese número y no otro"?</div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- FASE 4: VALIDA                                             -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <section id="valida" class="fase-section">
+            <div class="fase-header valida">
+                <div class="fase-icon">✔</div>
+                <div class="fase-info">
+                    <h2>FASE 4: VALIDA — Rúbrica del Examen y Pre-Vuelo</h2>
+                    <span class="bloom-tag">Nivel Bloom: Evaluar</span>
+                </div>
+            </div>
+            <div class="fase-content">
+
+                <div class="objetivos-box">
+                    <h4>🎯 Objetivos de Aprendizaje</h4>
+                    <ul>
+                        <li><strong>Evaluar</strong> tu nivel de preparación para el Examen Práctico 1 usando la rúbrica oficial antes de presentarlo</li>
+                        <li><strong>Verificar</strong> que tu cliente del Hito 1 cumple todos los criterios de evaluación mediante un checklist</li>
+                        <li><strong>Identificar</strong> con precisión qué criterio del examen tiene mayor riesgo en tu implementación actual</li>
+                        <li><strong>Anticipar</strong> los escenarios de fallo que el examen puede incluir (servidor caído, datos malformados, timeout)</li>
+                    </ul>
+                </div>
+
+                <!-- Checklist pre-examen -->
+                <div class="checklist-box">
+                    <h4>✅ Checklist de Autoevaluación Rápida — Verifica ANTES del examen</h4>
+                    <div class="checklist-item">
+                        <span class="check-icon">☐</span>
+                        <div>
+                            <strong>¿Puedo construir una petición GET con headers custom en menos de 3 minutos?</strong>
+                            <div class="diagnostico">→ Si tardas más: practica escribir el bloque básico (url, headers, await) de memoria. En el examen no habrá tiempo para buscar sintaxis.</div>
+                        </div>
+                    </div>
+                    <div class="checklist-item">
+                        <span class="check-icon">☐</span>
+                        <div>
+                            <strong>¿Mi cliente maneja 2xx, 4xx, y 5xx de forma diferenciada (no un solo except para todo)?</strong>
+                            <div class="diagnostico">→ Si no: revisar el pseudocódigo de Bloque 1 en COMPRENDE y agregar los tres branches explícitos.</div>
+                        </div>
+                    </div>
+                    <div class="checklist-item">
+                        <span class="check-icon">☐</span>
+                        <div>
+                            <strong>¿El ciclo de polling usa <code>await sleep()</code> no bloqueante (no <code>time.sleep()</code>)?</strong>
+                            <div class="diagnostico">→ Si no: el ciclo congela el event loop y las peticiones concurrentes no funcionan. En Python: <code>await asyncio.sleep(n)</code>.</div>
+                        </div>
+                    </div>
+                    <div class="checklist-item">
+                        <span class="check-icon">☐</span>
+                        <div>
+                            <strong>¿Puedo agregar un observador nuevo sin modificar ningún método del Observable?</strong>
+                            <div class="diagnostico">→ Si no: hay acoplamiento implícito. Revisa que <code>_notificar()</code> solo llame a <code>obs.actualizar(datos)</code> sin condiciones por tipo de observador.</div>
+                        </div>
+                    </div>
+                    <div class="checklist-item">
+                        <span class="check-icon">☐</span>
+                        <div>
+                            <strong>¿Mi cliente valida el body de la respuesta antes de usarlo (campos null, tipo incorrecto, campo faltante)?</strong>
+                            <div class="diagnostico">→ Si no: el examen puede incluir respuestas "trampa" como <code>{"pedidos": null}</code> o <code>{"total": "veinte"}</code>. Tu cliente debe detectarlas sin crashear.</div>
+                        </div>
+                    </div>
+                    <div class="checklist-item">
+                        <span class="check-icon">☐</span>
+                        <div>
+                            <strong>¿Puedo explicar oralmente POR QUÉ el timeout es el valor que configuré (no solo que lo configuré)?</strong>
+                            <div class="diagnostico">→ Si no: revisar el docstring de REFLEXIONA. El examen puede incluir preguntas de justificación, no solo implementación.</div>
+                        </div>
+                    </div>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--gray);">💡 <em>Tip: Si encuentras un punto no marcado, reproduce el escenario de fallo: desconecta el servidor o cambia el JSON de respuesta y observa exactamente qué hace tu cliente.</em></p>
+                </div>
+
+                <h3>Rúbrica Oficial del Examen Práctico 1</h3>
+                <p>Esta es la rúbrica con la que se evaluará el Examen Práctico 1. Léela antes del examen — no como lista de "qué memorizar" sino como mapa de "qué decisiones debo poder tomar en tiempo real".</p>
+
+                <table class="rubrica-table">
+                    <thead>
+                        <tr>
+                            <th style="width:22%">Criterio</th>
+                            <th style="width:22%"><span class="nivel-badge excelente">Excelente (100%)</span></th>
+                            <th style="width:22%"><span class="nivel-badge satisfactorio">Satisfactorio (75%)</span></th>
+                            <th style="width:22%"><span class="nivel-badge basico">Básico (50%)</span></th>
+                            <th style="width:12%"><span class="nivel-badge insuficiente">Insuficiente (&lt;50%)</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Construcción de peticiones HTTP (25%)</strong><br><small>GET, POST, headers, body JSON, params</small></td>
+                            <td>Construye correctamente cualquier petición requerida. Headers pertinentes incluidos. Body JSON serializado correctamente. Timeout configurado.</td>
+                            <td>Peticiones funcionales con algún header faltante o timeout no configurado.</td>
+                            <td>Petición básica funciona pero no incluye headers custom ni manejo de Content-Type.</td>
+                            <td>Petición no se construye correctamente o no funciona.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Manejo diferenciado de errores (25%)</strong><br><small>2xx / 4xx / 5xx / errores de red</small></td>
+                            <td>Maneja 2xx (éxito), 4xx (error cliente, no reintentar), 5xx (error servidor, puede reintentar) y errores de red (Timeout, ConnectionError) de forma diferenciada y explícita.</td>
+                            <td>Diferencia 2xx vs error pero no distingue 4xx de 5xx, o no captura errores de red.</td>
+                            <td>Solo maneja el caso exitoso. Los errores hacen crashear el cliente.</td>
+                            <td>No hay manejo de errores.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Programación asíncrona correcta (20%)</strong><br><small>async/await, gather, sleep no bloqueante</small></td>
+                            <td>Todas las operaciones de I/O son <code>async/await</code>. Uso correcto de <code>gather()</code> para concurrencia. Sleep no bloqueante en el ciclo.</td>
+                            <td>async/await correcto pero sin concurrencia (<code>gather</code>) o con <code>time.sleep()</code> bloqueante.</td>
+                            <td>Funciona síncronamente (aunque sea lento). async/await incompleto.</td>
+                            <td>No usa async/await o lo usa incorrectamente (sin await en llamadas async).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Polling con detección de cambios (15%)</strong><br><small>Ciclo, ETag/estado, backoff, detener()</small></td>
+                            <td>Ciclo de polling con ETag o detección de estado. Backoff adaptativo. Método <code>detener()</code> con cierre suave. Intervalo con justificación.</td>
+                            <td>Ciclo de polling funcional sin backoff o sin detección de cambios (consulta y notifica siempre).</td>
+                            <td>Ciclo de polling básico sin manejo de errores ni backoff.</td>
+                            <td>No implementa polling o el ciclo no termina correctamente.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Patrón Observer — desacoplamiento (15%)</strong><br><small>Observable, Observador, suscribir/notificar</small></td>
+                            <td>Observable notifica a todos los observadores de forma idéntica via <code>actualizar()</code>. Agregar un observador nuevo no requiere modificar el Observable.</td>
+                            <td>Observer funciona pero con acoplamiento leve (if/switch por tipo de observador).</td>
+                            <td>Existe algún mecanismo de callback pero no sigue la interfaz Observer.</td>
+                            <td>Sin Observer. La fuente de datos llama directamente a la UI.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Zero Tolerance -->
+                <div class="zero-tolerance-box">
+                    <h4>🚫 Condiciones de Fallo Crítico — Zero Tolerance</h4>
+                    <p style="font-size:0.9rem; opacity:0.9; margin-bottom:1rem;">En sistemas distribuidos del lado del cliente, ciertos fallos son independientemente fatales: no importa qué tan bien estructurado esté el resto del código. Si se produce cualquiera de las siguientes condiciones, la calificación máxima para el criterio afectado queda limitada a <strong style="color:#ff6b6b;">Básico (50%)</strong>, sin excepción:</p>
+                    <div class="zero-tolerance-item">
+                        <strong>🔴 Crash silencioso que detiene el event loop</strong><br>
+                        El cliente recibe un error de red (Timeout, ConnectionError) y lanza una excepción no capturada que termina la corrutina principal. El ciclo de polling muere sin registrar el error ni notificar a los observadores. <em>Aplica al criterio: Manejo de errores (25%) + Programación asíncrona (20%)</em>
+                    </div>
+                    <div class="zero-tolerance-item">
+                        <strong>🔴 Excepción no capturada en <code>actualizar()</code> de un observador detiene la notificación</strong><br>
+                        Si el Observable no protege el ciclo <code>for obs in self._observadores</code> con un try/except, un observador con bug silencia a todos los observadores siguientes sin que el sistema lo reporte. <em>Aplica al criterio: Patrón Observer (15%)</em>
+                    </div>
+                    <div class="zero-tolerance-item">
+                        <strong>🔴 <code>time.sleep()</code> bloqueante en el ciclo de polling</strong><br>
+                        Bloquea el event loop completo durante el intervalo de espera: ninguna otra corrutina puede ejecutarse, peticiones concurrentes quedan congeladas, y el cliente no puede responder a <code>detener()</code>. <em>Aplica al criterio: Programación asíncrona (20%)</em>
+                    </div>
+                    <p style="font-size:0.82rem; opacity:0.7; margin-top:1rem;">Nota: un cierre controlado del ciclo (ej: <code>ejecutando = False</code> + salir del while limpiamente) es correcto y no activa estas condiciones. La distinción es <em>fallo silencioso</em> vs <em>cierre controlado</em>.</p>
+                </div>
+
+                <!-- Reto 4 -->
+                <div class="reto-ia">
+                    <div class="reto-ia-header">
+                        <span class="reto-numero">4</span>
+                        <h4>Diagnóstico de Escenarios Críticos — ¿Sobrevive mi cliente al examen? <span class="reto-badge esencial">Esencial</span></h4>
+                    </div>
+                    <div class="reto-ia-body">
+                        <div class="rol-ia"><strong>🤖 Rol de la IA:</strong> Tester de Resiliencia que diseña los escenarios de fallo más probables en el Examen Práctico 1, para que el estudiante los anticipe y sepa qué debe producir su cliente ante cada uno.</div>
+                        <div class="prompt-box">Explica de forma simple, usando analogías cotidianas (como prepararte para un examen de manejo practicando estacionamiento en paralelo y freno de emergencia — los escenarios que más fallan) antes de entrar en detalles técnicos. Usa lenguaje de estudiante de segundo-tercer semestre.
+
+Actúa como Tester de Resiliencia. Voy a presentar el Examen Práctico 1 de consumo de APIs. Necesito saber qué producirá exactamente mi cliente ante los escenarios de fallo más comunes en el examen.
+
+Para cada uno de estos 5 escenarios, dime:
+1. ¿Qué excepción o código de estado recibirá mi cliente?
+2. ¿Qué línea de mi código (en términos de estructura, no sintaxis) la manejará?
+3. ¿Qué debe mostrar o retornar mi cliente? (comportamiento observable esperado)
+
+ESCENARIOS:
+
+A. El servidor tarda 45 segundos en responder y mi timeout es de 10s
+   → ¿Qué excepción ocurre? ¿El ciclo de polling continúa o muere?
+
+B. El servidor responde con HTTP 422 con body: {"error": "campo 'id' requerido"}
+   → ¿Por qué NO debe reintentarse? ¿Qué debe hacer mi cliente?
+
+C. El servidor responde 200 OK pero el body es: {"pedidos": null}
+   → ¿Qué pasa si mi código hace: for pedido in datos["pedidos"]?
+   → ¿Dónde debería estar la validación en mi código?
+
+D. El servidor responde 503 Service Unavailable
+   → ¿Cuánto debe esperar mi cliente antes de reintentar?
+   → ¿Cuántas veces debe reintentar antes de reportar "servicio no disponible"?
+
+E. Mi cliente recibe una respuesta con ETag "abc123" y en la próxima petición
+   el servidor responde 304 Not Modified
+   → ¿Qué debe hacer mi cliente con los observadores? ¿Notificar o no notificar?
+   → ¿Qué debe pasar con el intervalo de polling?
+
+Dame los 5 escenarios uno por uno. Espera que yo responda qué haría MI código antes de decirme la respuesta correcta.</div>
+                        <div class="entregable-box">
+                            <p><strong>Lo que obtienes:</strong> Claridad sobre los 5 escenarios de fallo más probables del examen. No hay entregable formal — registra en tu cuaderno cuáles de los 5 escenarios tu código actual maneja incorrectamente y corrígelos antes del examen. Tiempo objetivo: 30 minutos.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="context-box warning">
+                    <div class="box-title">⚠️ Lo que el examen NO te pedirá — aclara expectativas</div>
+                    <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                        <li>No necesitas implementar el servidor — solo el cliente que lo consume.</li>
+                        <li>No se evalúa la UI visual — una CLI o consola con outputs claros es suficiente.</li>
+                        <li>No necesitas persistencia en base de datos — los datos viven en memoria durante la ejecución.</li>
+                        <li>No se evalúa el patrón de diseño en sí mismo (Observer) como teoría — se evalúa que tu código lo usa correctamente para desacoplar la fuente de datos de los consumidores.</li>
+                    </ul>
+                </div>
+
+                <div class="checkpoint">
+                    <h4>🪞 Checkpoint Metacognitivo — Fase VALIDA</h4>
+                    <div class="pregunta">De los 5 criterios de la rúbrica, ¿cuál es tu punto más débil hoy? Sé específico: no "el manejo de errores" sino "no diferencio 4xx de 5xx". Esa es la única cosa que debes reforzar antes del examen.</div>
+                    <div class="pregunta">¿Probé al menos un escenario de fallo (servidor caído o datos malformados) con mi código del simulacro? Si no, ejecuta el escenario C del Reto 4 ahora mismo.</div>
+                    <div class="pregunta">Si la IA del Reto 4 señaló que mi cliente falla el escenario C (body: null), ¿ya lo corregí antes del examen?</div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- FASE 5: PROFUNDIZA                                         -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <section id="profundiza" class="fase-section">
+            <div class="fase-header profundiza">
+                <div class="fase-icon">🚀</div>
+                <div class="fase-info">
+                    <h2>FASE 5: PROFUNDIZA — Retroalimentación del Hito 1 y Puente a la Fase 2</h2>
+                    <span class="bloom-tag">Nivel Bloom: Evaluar → Crear</span>
+                </div>
+            </div>
+            <div class="fase-content">
+
+                <div class="objetivos-box">
+                    <h4>🎯 Objetivos de Aprendizaje</h4>
+                    <ul>
+                        <li><strong>Procesar</strong> la retroalimentación del Hito 1 de forma estructurada: qué funcionó, qué mejorar, qué rediseñar</li>
+                        <li><strong>Conectar</strong> el cliente construido en las Semanas 1–4 con la arquitectura en capas que se construirá en la Semana 6</li>
+                        <li><strong>Anticipar</strong> por qué las decisiones de diseño actuales (especialmente la separación de capas y el Observer) facilitarán — o dificultarán — el trabajo de las semanas siguientes</li>
+                        <li><strong>Explorar</strong> (opcional) patrones avanzados que extienden lo aprendido: retry con jitter, circuit breaker del lado cliente</li>
+                    </ul>
+                </div>
+
+                <h3>Procesando la Retroalimentación del Hito 1</h3>
+
+                <div class="hito-feedback">
+                    <h4>📋 Protocolo de Retroalimentación Estructurada</h4>
+                    <p>Cuando recibas la calificación y comentarios del Hito 1, usa este protocolo para procesar la retroalimentación de forma productiva — no solo para "saber tu nota":</p>
+                    <ol style="margin-left: 1.5rem; margin-top: 0.8rem;">
+                        <li style="margin-bottom:0.8rem;"><strong>Clasifica los comentarios:</strong> ¿Es un error de implementación (bug), una decisión de diseño cuestionable (trade-off), o un estilo/convención (formato)? Solo los primeros dos tipos son prioritarios.</li>
+                        <li style="margin-bottom:0.8rem;"><strong>Para errores de implementación:</strong> Corrígelos en tu código. Son los que más pueden afectar la Semana 6, donde extenderás este mismo cliente.</li>
+                        <li style="margin-bottom:0.8rem;"><strong>Para decisiones de diseño cuestionadas:</strong> No los corrijas automáticamente. Primero entiende por qué el evaluador los cuestiona. ¿Hay un escenario de fallo real que tu decisión no manejó? Luego decide si cambias o defiendes tu elección con argumentos técnicos.</li>
+                        <li><strong>Documenta las correcciones:</strong> Actualiza el docstring de decisiones de diseño en tu código indicando qué cambió y por qué. Esto construye tu historial de aprendizaje.</li>
+                    </ol>
+                </div>
+
+                <h3>Conexión con el Proyecto Integrador: El Cliente EcoMarket Evoluciona</h3>
+                <p>Aquí es donde está tu cliente al cerrar la Fase 1, y hacia dónde va en las próximas semanas:</p>
+
+                <div class="ascii-diagram" role="img" aria-label="Diagrama: Hoja de ruta del cliente EcoMarket de Semanas 1 a 9, mostrando lo construido en Semanas 1-5 y lo que se añade en Semanas 6-9 incluyendo arquitectura en capas, caché local, autenticación y WebSocket"><span class="sr-only">Hoja de ruta en dos bloques. Bloque construido Semanas 1 a 5: capa de presentación con observadores, capa de sincronización con Polling y Observer, capa de comunicación HTTP con async. Bloque próximo Semanas 6 a 9: refactoring a arquitectura en capas con Repository pattern en Semana 6, caché local del cliente en Semana 7, autenticación JWT en Semana 8, reemplazo de polling por WebSocket en Semana 9.</span>
+┌────────────────────────────────────────────────────────────────────────┐
+│     EVOLUCIÓN DEL CLIENTE ECOMARKET — SEMANAS 1 A 9                    │
+├────────────────────────────────────────────────────────────────────────┤
+│                                                                        │
+│  ✅ CONSTRUIDO (Semanas 1–5):                                          │
+│  ┌────────────────────────────────────────────────────────────┐        │
+│  │  CAPA DE PRESENTACIÓN / OBSERVADORES                       │        │
+│  │  CAPA DE SINCRONIZACIÓN (Polling + Observer)               │        │
+│  │  CAPA DE COMUNICACIÓN HTTP (GET, POST, PUT, DELETE, async) │        │
+│  └────────────────────────────────────────────────────────────┘        │
+│                                                                        │
+│  🔧 REFACTORING (Semana 6) — Arquitectura en Capas:                    │
+│  ┌────────────────────────────────────────────────────────────┐        │
+│  │  Separar: PresenterLayer / DomainLayer / DataLayer         │        │
+│  │  Agregar: Repository pattern (abstrae el origen de datos)  │        │
+│  │  Refactorizar: Las 3 capas actuales → módulos/carpetas     │        │
+│  └────────────────────────────────────────────────────────────┘        │
+│                                                                        │
+│  🔧 CACHÉ (Semana 7) — Gestión de Estado:                              │
+│  ┌────────────────────────────────────────────────────────────┐        │
+│  │  Agregar: Capa de caché local (evita peticiones redundantes│        │
+│  │  Estrategias: cache-first, network-first, stale-while-rev. │        │
+│  └────────────────────────────────────────────────────────────┘        │
+│                                                                        │
+│  🔐 AUTENTICACIÓN (Semanas 8–9) — Seguridad y Resiliencia:             │
+│  ┌────────────────────────────────────────────────────────────┐        │
+│  │  Agregar: JWT, refresh tokens, almacenamiento seguro       │        │
+│  │  Agregar: Circuit breaker del lado cliente                 │        │
+│  │  Agregar: Retry con backoff exponencial + jitter           │        │
+│  └────────────────────────────────────────────────────────────┘        │
+│                                                                        │
+│  📡 TIEMPO REAL (Semana 11) — WebSocket:                               │
+│  ┌────────────────────────────────────────────────────────────┐        │
+│  │  Reemplazar: ServicioPolling → ServicioWebSocket           │        │
+│  │  Sin cambios: Observadores, Presentación, Cache            │        │
+│  │  (El Observer hace posible el reemplazo sin refactoring)   │        │
+│  └────────────────────────────────────────────────────────────┘        │
+└────────────────────────────────────────────────────────────────────────┘
+                </div>
+                <div class="diagrama-descripcion">
+                    <strong>Mensaje clave:</strong> Lo que construiste en las Semanas 1–4 no se descarta — se <em>extiende</em>. El Observer que implementaste esta semana es el mismo que hará posible reemplazar el polling por WebSocket en la Semana 11 <strong>sin modificar los observadores ni la capa de presentación</strong>. Cada semana agrega una capa; las anteriores se preservan.
+                </div>
+
+                <h3>Hacia la Semana 6: Arquitectura en Capas</h3>
+                <div class="context-box info">
+                    <div class="box-title">🔮 ¿Qué viene la próxima semana?</div>
+                    <p>La Semana 6 introduce la <strong>arquitectura en capas</strong> del cliente: MVC, Repository Pattern, separación de responsabilidades. Si tu cliente actual mezcla la lógica HTTP con la lógica de negocio (ej: el archivo que hace peticiones también procesa los datos y los muestra), la Semana 6 será más difícil.</p>
+                    <p style="margin-top: 0.8rem;"><strong>¿Por qué el Observer de Semana 4 es prerequisito de la Semana 6?</strong> Porque el Repository Pattern de la Semana 6 es el Observer aplicado a la capa de datos: el repositorio es el Observable; la vista y la lógica de negocio son los observadores. Si no entiendes el desacoplamiento del Observer, el Repository se sentirá como burocracia sin propósito.</p>
+                    <p style="margin-top: 0.8rem;"><strong>Preparación recomendada:</strong> Revisa tu código del Hito 1 y pregúntate: ¿Dónde mezclo responsabilidades? ¿Hay una función que hace HTTP, procesa datos Y los muestra? Esas son las candidatas a separar en la Semana 6.</p>
+                </div>
+
+                <!-- Reto 5 -->
+                <div class="reto-ia">
+                    <div class="reto-ia-header">
+                        <span class="reto-numero">5</span>
+                        <h4>Extensión Avanzada: Retry con Jitter y el Problema del Thundering Herd <span class="reto-badge avanzado">Avanzado</span></h4>
+                    </div>
+                    <div class="reto-ia-body">
+                        <div class="post-examen-banner">
+                            <div class="banner-icon">🗓️</div>
+                            <div class="banner-text">
+                                <strong>CONTENIDO POST-EXAMEN — léelo después de presentar el Examen Práctico 1</strong>
+                                <p>Este reto no es materia del examen y tu código actual no está "mal" por no tener Jitter. Completa las fases 1–4 primero. Regresa aquí el jueves por la noche, cuando ya hayas entregado. Este contenido construye sobre lo que sabes — no es un prerrequisito del examen.</p>
+                            </div>
+                        </div>
+                        <div class="rol-ia"><strong>🤖 Rol de la IA:</strong> Ingeniero de Resiliencia Senior especialista en comportamiento del cliente bajo fallos masivos del servidor.</div>
+                        <div class="prompt-box">Explica de forma simple, usando analogías cotidianas (como cuando hay un apagón en un estadio y todos intentan salir por la misma puerta al mismo tiempo — caos; vs. si cada persona esperara un tiempo aleatorio diferente antes de levantarse) antes de entrar en detalles técnicos. Usa lenguaje de estudiante de segundo-tercer semestre.
+
+Actúa como Ingeniero de Resiliencia. Mi cliente EcoMarket tiene polling adaptativo con backoff. Quiero entender el problema del "thundering herd" y cómo el jitter lo soluciona DESDE LA PERSPECTIVA DEL CLIENTE.
+
+Guíame en estos 3 puntos, uno por uno. Espera mi respuesta antes de continuar:
+
+1. PROBLEMA EN EL CLIENTE: Si 500 instancias de mi cliente hacen polling con el mismo
+   intervalo base (5s) y el servidor se cae a t=0, todos los clientes harán backoff
+   al mismo intervalo (10s, 20s, 40s...) y se recuperarán AL MISMO TIEMPO.
+   → Ayúdame a visualizar qué pasará en el código de CADA cliente cuando todos
+     intenten reconectar simultáneamente. ¿Cómo experimenta esto MI cliente
+     (conexiones rechazadas, timeouts, qué excepciones)?
+
+2. JITTER EN MI CÓDIGO: ¿Cómo agrego jitter (aleatoriedad) al backoff de mi cliente
+   para que no se sincronicen? Muéstrame solo la línea de pseudocódigo que cambia.
+   intervalo = min(intervalo * 2, INTERVALO_MAX)  ← esto es lo actual
+   → ¿Cómo queda con jitter completo y jitter decorrelacionado? ¿Qué diferencia
+     experimenta MI cliente entre las dos variantes?
+
+3. CIRCUIT BREAKER — PREVIEW: Si el jitter reduce el problema pero el servidor sigue
+   caído por 10 minutos, mi cliente seguirá reintentando cada 60s (máximo). 
+   ¿Qué es un circuit breaker del lado del cliente y por qué es el siguiente paso
+   lógico? Solo una descripción conceptual — lo implementaremos en la Semana 9.
+
+No necesito el código completo. Solo los cambios específicos en el cliente y la 
+lógica detrás.</div>
+                        <div class="entregable-box">
+                            <p><strong>Entregable (opcional, sin calificación):</strong> Una línea de pseudocódigo con jitter añadida a tu sistema de backoff actual, con un comentario de una oración explicando por qué el jitter beneficia a tu cliente específicamente (no al servidor). Agrégarla al docstring de tu cliente si te parece relevante.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="context-box tip">
+                    <div class="box-title">💡 Píldoras avanzadas — opcionales para profundizar</div>
+                    <p><strong>Idempotencia desde el cliente:</strong> Si tu cliente hace POST /pedido y no recibe respuesta (timeout), ¿fue creado o no? La idempotencia del cliente implica diseñar la petición de forma que puedas reintentarla sin duplicar el pedido — enviando un ID único generado por el cliente (<em>idempotency key</em>).</p>
+                    <p style="margin-top:0.8rem;"><strong>Conditional requests más allá del ETag:</strong> El header <code>If-Modified-Since</code> es la alternativa basada en timestamp cuando el servidor no soporta ETag. El 304 Not Modified funciona igual. El cliente solo necesita guardar la fecha de la última respuesta en lugar del ETag.</p>
+                    <p style="margin-top:0.8rem; font-style:italic;">Estos temas son para exploración autónoma. No son evaluables en el Examen Práctico 1.</p>
+                </div>
+
+                <div class="checkpoint">
+                    <h4>🪞 Checkpoint Metacognitivo — Fase PROFUNDIZA</h4>
+                    <div class="pregunta">¿Entiendo por qué el Observer que implementé en la Semana 4 es exactamente el mismo patrón que usaré en el Repository de la Semana 6?</div>
+                    <div class="pregunta">¿Hay partes de mi cliente del Hito 1 donde mezclé responsabilidades (HTTP + negocio + UI en la misma función)? ¿Qué tendría que separar para la Semana 6?</div>
+                    <div class="pregunta">¿Procesé la retroalimentación del Hito 1 siguiendo el protocolo? ¿Corregí los errores de implementación antes de continuar al Semana 6?</div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ========== EVALUACIÓN ========== -->
+        <section id="evaluacion" class="evaluacion-section">
+            <div class="evaluacion-header">
+                <h2>📊 Sistema de Evaluación — Semana 5</h2>
+                <p>Examen Práctico 1 (12%) · Actividades de preparación no calificadas</p>
+            </div>
+
+            <div class="context-box success" style="margin: 1.5rem; border-left-color: #28a745; background: linear-gradient(135deg, #e8f5e9, #c8e6c9);">
+                <div class="box-title" style="color: #1b5e20;">📁 Semana de evaluación — ¿qué se entrega y qué no?</div>
+                <p>Esta semana tiene una estructura diferente a las anteriores. Los retos 1, 3, 4 y 5 son de preparación y no se entregan formalmente. Lo que se evalúa es:</p>
+                <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                    <li><strong>Examen Práctico 1</strong> — presentado en clase. Duración aproximada 90 minutos.</li>
+                    <li><strong>Hito 1 (entregado en Semana 4)</strong> — recibe retroalimentación esta semana.</li>
+                    <li><strong>Reto 2 (simulacro)</strong> — es práctica. El código generado puede usarse como referencia personal, no como entregable.</li>
+                </ul>
+                <p style="margin-top: 0.5rem; font-style: italic;">Tiempo estimado de preparación esta semana: <strong>3 a 5 horas</strong> (diagnóstico + simulacro + reflexión + repaso de escenarios de fallo). Si haces el Reto 5 avanzado, suma 1 hora adicional.</p>
+            </div>
+
+            <div class="criterio-item">
+                <span class="fase-badge" style="background: linear-gradient(135deg,#667eea,#764ba2);">Comprende · Diagnóstico</span>
+                <span>Identificación de lagunas conceptuales y refuerzo de los 4 bloques evaluables (sin entregable formal — preparación)</span>
+                <span class="puntos" style="background: var(--gray);">Prep.</span>
+            </div>
+            <div class="criterio-item">
+                <span class="fase-badge" style="background: linear-gradient(135deg,#f093fb,#f5576c);">Aplica · Simulacro</span>
+                <span>Monitor de Pedidos — simulacro del examen con los 3 métodos del ciclo AETL implementados (práctica personal, no entregable)</span>
+                <span class="puntos" style="background: var(--gray);">Prep.</span>
+            </div>
+            <div class="criterio-item">
+                <span class="fase-badge" style="background: linear-gradient(135deg,#4facfe,#00f2fe);">Reflexiona · Docstring</span>
+                <span>Docstring de decisiones de diseño incorporado al código del Hito 1 — referencia para la retroalimentación y para la Semana 6</span>
+                <span class="puntos" style="background: var(--gray);">Hito 1</span>
+            </div>
+            <div class="criterio-item">
+                <span class="fase-badge" style="background: linear-gradient(135deg,#43e97b,#38f9d7);">Examen Práctico 1</span>
+                <span>Implementación en vivo: cliente REST con HTTP, async/await, polling adaptativo y Observer. Evaluado con la rúbrica oficial.</span>
+                <span class="puntos">12%</span>
+            </div>
+            <div class="criterio-item">
+                <span class="fase-badge" style="background: var(--secondary);">Hito 1</span>
+                <span>Cliente REST Básico — entregado en Semana 4, evaluado con retroalimentación en Semana 5</span>
+                <span class="puntos">15%</span>
+            </div>
+            <div class="criterio-item" style="background: #f3e8ff;">
+                <span class="fase-badge" style="background: #9c27b0;">Profundiza · Reto 5</span>
+                <span>Extensión con jitter en backoff + descripción conceptual del circuit breaker (OPCIONAL — sin puntuación adicional esta semana)</span>
+                <span class="puntos" style="background: #9c27b0; color: white;">Opcional</span>
+            </div>
+        </section>
+
+        <!-- ========== GLOSARIO ========== -->
+        <section id="glosario" class="glosario-section">
+            <div class="glosario-header">
+                <h3>📖 Glosario — Semana 5</h3>
+            </div>
+            <div class="glosario-grid">
+                <div class="termino-card">
+                    <dl><dt>Examen Práctico</dt>
+                    <dd>Evaluación en vivo donde el estudiante implementa un cliente distribuido ante un escenario nuevo, demostrando transferibilidad de los patrones aprendidos.</dd></dl>
+                </div>
+                <div class="termino-card">
+                    <dl><dt>Rúbrica (Rubric)</dt>
+                    <dd>Herramienta de evaluación con criterios y niveles de desempeño explícitos. Permite al estudiante saber exactamente qué se evalúa y a qué nivel debe llegar.</dd></dl>
+                </div>
+                <div class="termino-card">
+                    <dl><dt>Transferibilidad</dt>
+                    <dd>Capacidad de aplicar un patrón o concepto aprendido en un contexto a uno diferente. Ej: aplicar el ciclo polling+Observer a un endpoint de pedidos aunque lo aprendiste con inventario.</dd></dl>
+                </div>
+                <div class="termino-card">
+                    <dl><dt>Backoff Exponencial</dt>
+                    <dd>Estrategia donde el intervalo de espera entre reintentos se multiplica en cada intento (ej: 1s, 2s, 4s, 8s). Reduce la carga acumulada de conexiones en el cliente y el tráfico de red.</dd></dl>
+                </div>
+                <div class="termino-card">
+                    <dl><dt>Jitter (Variación Aleatoria)</dt>
+                    <dd>Aleatoriedad añadida al backoff para evitar que múltiples instancias del cliente se sincronicen y reconecten simultáneamente. Variante más efectiva: jitter decorrelacionado.</dd></dl>
+                </div>
+                <div class="termino-card">
+                    <dl><dt>Thundering Herd</dt>
+                    <dd>Problema donde muchas instancias del cliente reintentan simultáneamente después de un fallo compartido. Cada cliente experimenta más rechazos y timeouts porque todos compiten por los mismos recursos del servidor al mismo tiempo.</dd></dl>
+                </div>
+                <div class="termino-card">
+                    <dl><dt>Idempotency Key</dt>
+                    <dd>Identificador único generado por el cliente e incluido en una petición POST, que permite al servidor ignorar duplicados si el cliente reintenta la petición ante un timeout. El cliente puede reintentar de forma segura.</dd></dl>
+                </div>
+                <div class="termino-card">
+                    <dl><dt>Circuit Breaker (Interruptor del Circuito)</dt>
+                    <dd>Patrón del lado cliente donde, después de N fallos consecutivos, el cliente deja de intentar contactar al servidor por un período, evitando desperdiciar recursos en conexiones que saben que fallarán. Se implementará en Semana 9.</dd></dl>
+                </div>
+                <div class="termino-card">
+                    <dl><dt>Repository Pattern</dt>
+                    <dd>Patrón arquitectónico que abstrae el origen de datos (API, caché local, base de datos) detrás de una interfaz uniforme. El cliente solicita datos al repositorio sin saber si vienen de la red o del caché. Se verá en Semana 6.</dd></dl>
+                </div>
+                <div class="termino-card">
+                    <dl><dt>Architecture Decision Record (ADR)</dt>
+                    <dd>Documento breve que registra una decisión arquitectónica significativa, su contexto, las alternativas consideradas y las consecuencias de la elección. El docstring de decisiones de diseño de este curso es un ADR informal.</dd></dl>
+                </div>
+                <div class="termino-card aetl">
+                    <dl><dt>Agencia Compartida (AETL)</dt>
+                    <dd>Balance entre autonomía del estudiante y asistencia de la IA. Esta semana toma forma de Evaluador: el estudiante propone soluciones, la IA señala errores sin resolverlos, preservando el aprendizaje activo.</dd></dl>
+                </div>
+                <div class="termino-card aetl">
+                    <dl><dt>Caso Frontera (Edge Case)</dt>
+                    <dd>Escenario límite o inusual que puede revelar fallos en el cliente. En el examen: null en el body, Content-Type inesperado, 304 sin ETag previo, timeout justo en el límite configurado.</dd></dl>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== REFERENCIAS ========== -->
+        <section id="referencias" class="referencias-section">
+            <h3>📚 Referencias Bibliográficas — Semana 5</h3>
+
+            <h4 style="margin-top: 1.5rem; margin-bottom: 1rem; color: var(--secondary);">Contenido Disciplinar</h4>
+            <div class="referencia-item">
+                Fielding, R. T. (2000). <em>Architectural Styles and the Design of Network-based Software Architectures.</em> Doctoral dissertation, University of California, Irvine. [Capítulo 5: REST — constraints, uniform interface, stateless communication]
+            </div>
+            <div class="referencia-item">
+                Nygard, M. (2018). <em>Release It! Design and Deploy Production-Ready Software</em> (2nd ed.). Pragmatic Bookshelf. [Capítulo 4: Timeouts. Capítulo 5: Circuit Breaker. Capítulo 7: Stability Anti-Patterns]
+            </div>
+            <div class="referencia-item">
+                Kleppmann, M. (2017). <em>Designing Data-Intensive Applications.</em> O'Reilly Media. [Capítulo 8: The Trouble with Distributed Systems — faults, retries, idempotency]
+            </div>
+            <div class="referencia-item">
+                Gamma, E., Helm, R., Johnson, R., &amp; Vlissides, J. (1994). <em>Design Patterns: Elements of Reusable Object-Oriented Software.</em> Addison-Wesley. [Observer Pattern, pp. 293-303; Repository as extension of the pattern]
+            </div>
+            <div class="referencia-item">
+                Amazon Web Services. (2023). <em>Exponential Backoff And Jitter.</em> AWS Architecture Blog. [Jitter decorrelacionado como estándar de la industria para backoff en clientes distribuidos]
+            </div>
+
+            <h4 style="margin-top: 2rem; margin-bottom: 1rem; color: var(--secondary);">Documentación Técnica</h4>
+            <div class="referencia-item">
+                IETF. RFC 7231 — <em>Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content.</em> Secciones 4 (Request Methods) y 6 (Response Status Codes) — referencia para la rúbrica del examen.
+            </div>
+            <div class="referencia-item">
+                IETF. RFC 7232 — <em>Conditional Requests.</em> ETag y If-None-Match para polling eficiente desde el cliente.
+            </div>
+            <div class="referencia-item">
+                Python Software Foundation. (2024). <em>asyncio — Asynchronous I/O.</em> Documentación oficial: <code>asyncio.gather()</code>, <code>asyncio.wait_for()</code>, <code>asyncio.sleep()</code>.
+            </div>
+            <div class="referencia-item">
+                MDN Web Docs. (2024). <em>Using Fetch — Error Handling.</em> Mozilla Developer Network. Manejo de errores de red vs HTTP en el cliente JavaScript.
+            </div>
+            <div class="referencia-item">
+                OpenAPI Specification. (2023). <em>OpenAPI 3.1.0 Specification.</em> Para validación de contratos de API desde el cliente.
+            </div>
+
+            <h4 style="margin-top: 2rem; margin-bottom: 1rem; color: var(--secondary);">Fundamentos Pedagógicos</h4>
+            <div class="referencia-item">
+                Sweller, J. (1988). Cognitive load during problem solving: Effects on learning. <em>Cognitive Science</em>, 12(2), 257-285.
+            </div>
+            <div class="referencia-item">
+                Vygotsky, L. S. (1978). <em>Mind in Society: The Development of Higher Psychological Processes.</em> Harvard University Press.
+            </div>
+            <div class="referencia-item">
+                Zimmerman, B. J. (2000). Attaining self-regulation: A social cognitive perspective. In M. Boekaerts et al. (Eds.), <em>Handbook of Self-Regulation</em> (pp. 13-39). Academic Press.
+            </div>
+            <div class="referencia-item">
+                Anderson, L. W., Krathwohl, D. R., et al. (2001). <em>A Taxonomy for Learning, Teaching, and Assessing: A Revision of Bloom's Taxonomy.</em> Longman.
+            </div>
+            <div class="referencia-item">
+                Chiu, T. K. F. (2024). Evaluating AI-enhanced formative assessment in higher education: Self-regulated learning and metacognitive awareness. <em>Computers &amp; Education</em>, 207, 104960.
+            </div>
+            <div class="referencia-item">
+                Sari, A., Cavus, N., &amp; Sari, T. (2025). Evaluating self-regulated learning with AI tools in university settings. <em>Education and Information Technologies</em>. https://doi.org/10.1007/s10639-025-13321-z
+            </div>
+
+            <h4 style="margin-top: 2rem; margin-bottom: 1rem; color: var(--secondary);">Estándares Curriculares</h4>
+            <div class="referencia-item">
+                ACM, IEEE-CS, AAAI. (2023). <em>Computer Science Curricula 2023 (CS2023).</em> Association for Computing Machinery. [NC — Networking and Communication: protocolos, manejo de errores; SE — Software Engineering: patrones arquitectónicos, testing; PDC — Parallel and Distributed Computing: async, resiliencia]
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">
+        <span class="modelo-badge">Modelo AETL v1.0</span>
+        <p>Universidad Autónoma de Nayarit · Licenciatura en Sistemas Computacionales</p>
+        <p style="font-size: 0.9rem; opacity: 0.8; margin-top: 0.5rem;">
+            Programación Distribuida del Lado del Cliente · Semana 5: Evaluación y Retroalimentación — Consolidación del Cliente REST Básico
+        </p>
+        <p style="font-size: 0.85rem; opacity: 0.7; margin-top: 1rem;">
+            Documento diseñado con el modelo de Aprendizaje Técnico Aumentado por IA (AETL)
+        </p>
+        <p>Dr. Eligardo Cruz Sánchez</p>
+    </footer>
+
+    <!-- ========== SCRIPT DE INTERACTIVIDAD ========== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = ['comprende', 'aplica', 'reflexiona', 'valida', 'profundiza'];
+            const progressSteps = document.querySelectorAll('.progress-step');
+
+            function updateProgress() {
+                const scrollPosition = window.scrollY + window.innerHeight / 2;
+                sections.forEach((sectionId, index) => {
+                    const section = document.getElementById(sectionId);
+                    if (section) {
+                        const sectionTop = section.offsetTop;
+                        const sectionBottom = sectionTop + section.offsetHeight;
+                        if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+                            progressSteps.forEach((step, stepIndex) => {
+                                step.classList.remove('active');
+                                if (stepIndex < index) {
+                                    step.classList.add('completed');
+                                } else {
+                                    step.classList.remove('completed');
+                                }
+                            });
+                            progressSteps[index].classList.add('active');
+                        }
+                    }
+                });
+            }
+
+            window.addEventListener('scroll', updateProgress);
+            updateProgress();
+
+            // Smooth scroll para navegación
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
